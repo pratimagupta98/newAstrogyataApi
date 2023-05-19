@@ -146,10 +146,10 @@ const thisSchema = new Schema(
     // availability: [{
     //   type: String,
     // }],
-    min_amount: {
+    min_tym: {
       type: Number
     },
-    max_amount: {
+    max_tym: {
       type: Number
 
     },

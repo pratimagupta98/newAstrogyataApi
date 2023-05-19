@@ -159,56 +159,55 @@ const WalletT = require("../models/walletTransaction");
 exports.addCallWallet = async (req, res) => {
   const { userid, astroid } = req.body;
   const getoneastro = await Astrologer.findOne({ _id: req.body.astroid });
-  // console.log("getoneastro", getoneastro)
+  console.log("getoneastro", getoneastro);
+
   if (getoneastro) {
-    const getminamt = getoneastro.min_tym;
-    console.log("getminamt", getminamt)
+    if (getoneastro.min_tym !== undefined) {
+      const getminamt = getoneastro.min_tym;
+      console.log("getminamt", getminamt);
 
-    const getmaxamt = getoneastro.max_tym;
-    console.log("getmaxamt", getmaxamt)
+      const getuserdetail = await User.findOne({ _id: req.body.userid });
 
-    const getuserdetail = await User.findOne({ _id: req.body.userid });
-    //  console.log("getuserdetail", getuserdetail)
+      if (getuserdetail) {
+        const getwalletamt = getuserdetail.amount;
+        console.log("getwalletamt", getwalletamt);
 
-    if (getuserdetail) {
-      //  console.log("getuserdetail", getuserdetail)
-      const getwalletamt = getuserdetail.amount;
-      console.log("getwalletamt", getwalletamt)
-      let callCharge;
-      if (req.body.call_duration === 'min') {
-        callCharge = getminamt;
-        console.log("callCharge", callCharge)
-      } else if (req.body.call_duration === 'max') {
-        callCharge = getmaxamt;
-        console.log("callCharge", callCharge)
+        let callCharge = getminamt;
+        console.log("callCharge", callCharge);
 
-      }
-
-      if (getwalletamt >= callCharge) {
-        res.status(200).json({
-          status: true,
-          msg: "Success",
-          type: "Voice Call"
-        });
+        if (getwalletamt >= callCharge) {
+          res.status(200).json({
+            status: true,
+            msg: "Success",
+            // type: "Voice Call"
+          });
+        } else {
+          res.status(201).json({
+            status: false,
+            msg: "Insufficient balance"
+          });
+        }
       } else {
-        res.status(201).json({
+        res.status(400).json({
           status: false,
-          msg: "Insufficient balance"
+          msg: "Invalid user"
         });
       }
     } else {
       res.status(400).json({
         status: false,
-        msg: "Something went wrong"
+        msg: "Invalid min_tym"
       });
     }
   } else {
-    res.status(401).json({
+    res.status(400).json({
       status: false,
-      msg: "Something went wrong"
+      msg: "Invalid astrologer"
     });
   }
 };
+
+
 
 
 
