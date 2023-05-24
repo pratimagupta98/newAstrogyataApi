@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
     pooja_type: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "poojaList"
 
     },
     duration: {

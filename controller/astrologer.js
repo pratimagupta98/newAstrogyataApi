@@ -86,6 +86,7 @@ exports.loginsendotp = async (req, res) => {
   let length = 6;
   let defaultotp = "123456";
   const getuser = await Astrologer.findOne({ mobile: req.body.mobile });
+  console.log("getuser", getuser)
   if (getuser?.approvedstatus == "true") {
     // console.log("STRING", getuser)
     res.status(200).send({
