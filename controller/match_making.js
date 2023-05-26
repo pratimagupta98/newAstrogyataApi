@@ -472,7 +472,7 @@ const api = 'panchang_festival';
 // const userId = '622692';
 // const apiKey = '220d9d0777a7645f8f62e6b03354cf51';
 
-exports.monthly_pancchang = async (req, res) => {
+exports.birth_details = async (req, res) => {
   var api = 'birth_details';
   var userId = process.env.USERID;
   var apiKey = process.env.APIKEY;
@@ -667,8 +667,8 @@ exports.basicPanchang = async (req, res) => {
     day: req.body.day,
     month: req.body.month,
     year: req.body.year,
-    hour: req.body.hour,
-    min: req.body.min,
+    hour: 12,
+    min: 00,
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,

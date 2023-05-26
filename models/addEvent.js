@@ -41,7 +41,7 @@ const eventSchema = new mongoose.Schema({
         // required: true
     },
     benefits: {
-        type: Array,
+        type: String,
         //  required: true
     },
     mode: {
