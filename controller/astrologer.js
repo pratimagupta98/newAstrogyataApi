@@ -109,9 +109,6 @@ exports.loginsendotp = async (req, res) => {
   }
 };
 
-
-
-
 exports.astrosignup = async (req, res) => {
   const { fullname, email, mobile, password, cnfmPassword, img, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio } = req.body;
 
@@ -183,7 +180,6 @@ exports.astrosignup = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   }
 }
-
 exports.editAstroDetails = async (req, res) => {
   const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio, status, callCharge, min_amount, max_amount, monday, tuesday, wednesday, thursday, friday, saturday, sunday, channelName } = req.body;
 
@@ -352,7 +348,6 @@ exports.editAstroDetails = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-
 exports.verifyotp = async (req, res) => {
   const { mobile, otp } = req.body;
   const getuser = await Astrologer.findOne({ mobile: mobile })
@@ -391,7 +386,6 @@ exports.verifyotp = async (req, res) => {
   };
 
 }
-
 exports.loginVerify = async (req, res) => {
   const { mobile, otp } = req.body;
   const getuser = await Astrologer.findOne({ mobile: mobile })
@@ -524,8 +518,6 @@ exports.updteApprovedsts = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-
-
 exports.stafflogin = async (req, res) => {
   // const errors = validationResult(req);
   // if (!errors.isEmpty()) {
@@ -583,7 +575,6 @@ exports.stafflogin = async (req, res) => {
     });
   }
 };
-
 
 exports.astrodetails = async (req, res) => {
   const getone = await Astrologer.findOne({ _id: req.params.id })

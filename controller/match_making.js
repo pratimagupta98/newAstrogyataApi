@@ -660,7 +660,6 @@ const downloadPdf = async () => {
 
 downloadPdf();
 
-
 exports.basicPanchang = async (req, res) => {
   var api = 'basic_panchang';
   var data = {
@@ -766,8 +765,6 @@ exports.lalkitab_debts = async (req, res) => {
   }
 };
 
-
-
 exports.todayPanchang = async (req, res) => {
   var api = 'basic_panchang';
 
@@ -851,8 +848,6 @@ exports.lalkitab_houses = async (req, res) => {
   }
 
 };
-
-
 
 exports.lalkitab_planets = async (req, res) => {
   var api = 'lalkitab_planets';
