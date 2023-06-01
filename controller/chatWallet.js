@@ -879,7 +879,7 @@ exports.acceptVideoChat = async (req, res) => {
 }
 
 
-exports.requested_notification = async (req, res) => {
+exports.wait_queue_list = async (req, res) => {
   await ChatWallet.find({ $and: [{ astroid: req.params.id }, { status: "Requested" }] }).populate("astroid").populate("userid").populate("recharge_planId")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
