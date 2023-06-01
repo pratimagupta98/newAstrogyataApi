@@ -459,3 +459,10 @@ exports.astroCallHistory = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+exports.userCallHistory = async (req, res) => {
+  await make_call.find({ userid: req.params.id }).populate("userid").populate("astroid")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
