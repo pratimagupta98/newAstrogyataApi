@@ -10,7 +10,7 @@ const {
 
 
 router.post("/user/send_VideoLink", send_VideoLink);
-router.get("/user/VdolinkList", VdolinkList);
+router.get("/user/VdolinkList/:id", VdolinkList);
 
 
 module.exports = router;

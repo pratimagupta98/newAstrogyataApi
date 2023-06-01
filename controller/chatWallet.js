@@ -176,6 +176,16 @@ exports.addCallWallet = async (req, res) => {
         console.log("callCharge", callCharge);
 
         if (getwalletamt >= callCharge) {
+          const chatWalletData = {
+            userid: req.body.userid,
+            astroid: req.body.astroid,
+            callCharge: callCharge,
+            type: "Voice Call"
+          };
+
+          const chatWallet = new ChatWallet(chatWalletData);
+          await chatWallet.save();
+
           res.status(200).json({
             status: true,
             msg: "Success",
@@ -206,10 +216,6 @@ exports.addCallWallet = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 
 exports.addVideoCallWallet = async (req, res) => {
@@ -325,11 +331,6 @@ exports.addVideoCallWallet = async (req, res) => {
 
 }
 
-
-
-
-
-
 exports.ChatWaiting = async (req, res) => {
   const getone = await ChatWallet.findOne({ _id: req.params.id })
     //.populate("astroid")
@@ -367,8 +368,6 @@ exports.ChatWaiting = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 }
-
-
 
 exports.cartbycustomer = async (req, res) => {
   //await Cart.remove()
@@ -415,7 +414,6 @@ exports.cartbycustomer = async (req, res) => {
   }
 }
 
-
 exports.getOne_Conversation_Wallet = async (req, res) => {
   await ChatWallet.find({ userid: req.params.id }).populate("userid").populate("astroid").populate("recharge_planId")
     .sort({ createdAt: -1 })
@@ -451,10 +449,6 @@ exports.pending_order = async (req, res, next) => {
       });
     });
 };
-
-
-
-
 
 
 exports.acceptChat = async (req, res) => {
@@ -651,7 +645,6 @@ exports.acceptChat = async (req, res) => {
   // .then((data) => resp.successr(res, data))
   // .catch((error) => resp.errorr(res, error));
 }
-
 exports.acceptVoiceCall = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {
@@ -764,7 +757,6 @@ exports.acceptVoiceCall = async (req, res) => {
   // .then((data) => resp.successr(res, data))
   // .catch((error) => resp.errorr(res, error));
 }
-
 exports.acceptVideoChat = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {
@@ -877,7 +869,6 @@ exports.acceptVideoChat = async (req, res) => {
   // .then((data) => resp.successr(res, data))
   // .catch((error) => resp.errorr(res, error));
 }
-
 
 exports.wait_queue_list = async (req, res) => {
   await ChatWallet.find({ $and: [{ astroid: req.params.id }, { status: "Requested" }] }).populate("astroid").populate("userid").populate("recharge_planId")

@@ -4,7 +4,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 const {
-    addPackage, getPackage, viewonePackage, delPackage
+    addPackage, getPackage, viewonePackage, delPackage, editPackage
 } = require("../controller/package");
 
 const storage = multer.diskStorage({
@@ -50,7 +50,7 @@ router.post("/admin/addPackage", multipleUpload, addPackage);
 router.get("/admin/getPackage", getPackage);
 router.get("/admin/viewonePackage/:id", viewonePackage);
 router.get("/admin/delPackage/:id", delPackage);
-// router.post("/admin/editBlog/:id", multipleUpload, editBlog);
+router.post("/admin/editPackage/:id", multipleUpload, editPackage);
 // router.get("/user/blog_by_category/:id", blog_by_category);
 
 module.exports = router;

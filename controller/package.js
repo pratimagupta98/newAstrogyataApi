@@ -75,31 +75,20 @@ exports.delPackage = async (req, res) => {
 };
 
 
-exports.editproduct = async (req, res) => {
-    const { title, productname, category, image, desc, mrp_price, des_price, status } = req.body
+exports.editPackage = async (req, res) => {
+    const { title, mrp_price, offer_price } = req.body
 
     data = {}
     if (title) {
         data.title = title
     }
-    if (productname) {
-        data.productname = productname
-    }
-    if (category) {
-        data.category = category
-    }
-    if (desc) {
-        data.desc = desc
-    }
     if (mrp_price) {
         data.mrp_price = mrp_price
     }
-    if (des_price) {
-        data.des_price = des_price
+    if (offer_price) {
+        data.offer_price = offer_price
     }
-    if (status) {
-        data.status = status
-    }
+
     if (req.files) {
         if (req.files.image) {
             alluploads = [];
@@ -116,7 +105,7 @@ exports.editproduct = async (req, res) => {
             data.image = alluploads;
         }
     }
-    await Product.findOneAndUpdate(
+    await Package.findOneAndUpdate(
         { _id: req.params.id },
         { $set: data },
         { new: true }
