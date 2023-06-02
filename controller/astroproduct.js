@@ -88,7 +88,7 @@ exports.added_product_byastro = async (req, res) => {
 
 exports.productbycategory = async (req, res) => {
   await Astroproduct.find({ category: req.params.id }).populate("category")
-    .sort({ sortorder: 1 }).populate("product").populate("astroid")
+    .sort({ sortorder: 1 }).populate("product")
 
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
