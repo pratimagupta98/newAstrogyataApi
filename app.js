@@ -155,8 +155,8 @@ mongoose
   });
 
 
-app.listen(process.env.PORT || 8000, () => {
-  console.log("Example app listening on port 8000");
+app.listen(process.env.PORT || 4000, () => {
+  console.log("Example app listening on port 4000");
 });
 
 //    http://localhost:5000/admin
