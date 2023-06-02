@@ -254,8 +254,8 @@ exports.all_transaction_list = async (req, res) => {
 
 
 
-exports.dltMany = async (req, res) => {
-  await Cart.deleteMany()
+exports.dltCart = async (req, res) => {
+  await Cart.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
