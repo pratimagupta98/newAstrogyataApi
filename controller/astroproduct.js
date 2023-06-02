@@ -37,8 +37,6 @@ exports.add_astro_product = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
-
 exports.product_consltnt_list = async (req, res) => {
 
   const getdata = await Astroproduct.find({ product: req.params.id }).populate("astroid").populate("product").populate("category")
@@ -65,7 +63,6 @@ exports.product_consltnt_list = async (req, res) => {
   )
   //console.log("data",data)
 };
-
 exports.productlist = async (req, res) => {
   await Astroproduct.find({
     astroid: req.params.id
@@ -73,25 +70,28 @@ exports.productlist = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 exports.astro_product_list = async (req, res) => {
   await Astroproduct.find().populate("astroid").populate("product").populate("category")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 exports.del_astro_product = async (req, res) => {
   await Astroproduct.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 exports.added_product_byastro = async (req, res) => {
   await Astroproduct.find({ product: req.params.id }).populate("astroid").populate("product").populate("category")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.productbycategory = async (req, res) => {
+  await Astroproduct.find({ category: req.params.id }).populate("category")
+    .sort({ sortorder: 1 }).populate("product").populate("astroid")
 
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
