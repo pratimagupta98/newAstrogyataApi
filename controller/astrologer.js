@@ -675,3 +675,83 @@ exports.logout = async (req, res) => {
     msg: "Logged out successfully",
   });
 };
+
+
+
+// exports.astrofilter = async (req, res) => {
+//   try {
+//     let query = { approvedstatus: "true" };
+
+//     if (req.query.all_skills) {
+//       // query.all_skills = req.query.all_skills;
+//       const skills = req.query.all_skills.split(",");
+//       query.all_skills = { $in: skills };
+//     }
+
+//     // if (req.query.language) {
+//     //   query.language = req.query.language;
+//     // }
+
+//     // if (req.query.status) {
+//     //   query.format = req.query.status;
+//     // }
+
+//     console.log("query", query);
+
+//     let astrofilter = await Astrologer.find(query);
+//     console.log("astrofilter", astrofilter);
+
+//     return res.status(200).json({
+//       message: "success",
+//       count: astrofilter.length,
+//       data: astrofilter
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       message: "Internal server error"
+//     });
+//   }
+// };
+
+exports.astrologerFilter = async (req, res) => {
+  try {
+    // Extract the filter parameters from the request query
+    const { all_skills, language, status } = req.query;
+
+    // Create an empty filter object
+    const filter = {};
+
+    // Add filter conditions based on the provided parameters
+    // if (all_skills) {
+    //   const skills = all_skills.split(",").map(skill => skill.trim());
+    //   filter.all_skills = { $in: skills };
+    // }
+    // console.log("all_skills", all_skills)
+
+    // if (language) {
+    //   filter.language = language;
+    // }
+
+    if (status) {
+      filter.status = status;
+    }
+
+    // Use the filter object to query the database
+    const astrologers = await Astrologer.find(filter);
+    console.log("astrologers", astrologers)
+    // Return the filtered astrologers in the API response
+    return res.status(200).json({
+      message: "success",
+      count: astrologers.length,
+      data: astrologers
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal server error"
+    });
+  }
+};
+
+
