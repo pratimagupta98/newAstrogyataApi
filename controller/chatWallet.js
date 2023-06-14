@@ -870,8 +870,22 @@ exports.acceptVideoChat = async (req, res) => {
   // .catch((error) => resp.errorr(res, error));
 }
 
+
 exports.wait_queue_list = async (req, res) => {
-  await ChatWallet.find({ $and: [{ astroid: req.params.id }, { status: "Requested" }] }).populate("astroid").populate("userid").populate("recharge_planId")
+  // Get the current date
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+
+  await ChatWallet.find({
+    $and: [
+      { astroid: req.params.id },
+      { status: "Requested" },
+      { createdAt: { $gte: today } } // Filter by createdAt field >= today
+    ]
+  })
+    .populate("astroid")
+    .populate("userid")
+    .populate("recharge_planId")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

@@ -24,7 +24,17 @@ exports.send_VideoLink = async (req, res) => {
 
 
 exports.VdolinkList = async (req, res) => {
-    await VideoLinkNoti.find({ astroid: req.params.id }).populate("astroid")
+    // Get the current date
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+
+    await VideoLinkNoti.find({
+        $and: [
+            { astroid: req.params.id },
+            { createdAt: { $gte: today } } // Filter by createdAt field >= today
+        ]
+    })
+        .populate("astroid")
         .sort({ sortorder: 1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
