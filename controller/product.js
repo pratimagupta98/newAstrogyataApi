@@ -18,21 +18,18 @@ cloudinary.config({
 
 exports.addProduct = async (req, res) => {
   //console.log(req.body);
-  const {  title,productname,category,image,desc,price,limit, status } = req.body;
-
+  const {  title,productname,category,image,desc,price,qsCount, status,bundles } = req.body;
   const newProduct = new Product({
-    
     title: title,
     productname: productname,
     category: category,
     image:image,
     desc:desc,
     price:price,
-    limit:limit,
-    status:status
+    qsCount:qsCount,
+    status:status,
+    bundles:bundles
   });
-
-  
     const findexist = await Product.findOne( { productname: productname });
     if (findexist) {
         resp.alreadyr(res);
