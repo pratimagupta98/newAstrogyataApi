@@ -12,7 +12,7 @@ const {
 router.post("/user/addAstroFollowers", addAstroFollowers);
 router.get("/user/getone_followers/:userid/:astroid", getone_followers);
 
-router.get("/user/unfollow_astrologer/:id", unfollow_astrologer);
+router.get("/user/unfollow_astrologer/:userid/:astroid", unfollow_astrologer);
 
 module.exports = router;
 

@@ -72,32 +72,27 @@ exports.getone_followers = async (req, res) => {
 };
 
 exports.unfollow_astrologer = async (req, res) => {
-  const astrologerId = req.params.id;
+  const astroid = req.params.astroid;
+  const userid = req.params.userid;
 
   try {
-    // const deletedAstrologer = await AstroFollowers.findOneAndDelete({ _id: astrologerId, status: false });
-
-    // if (deletedAstrologer) {
-    //   return res.status(200).json({ message: "unfollowed" });
-    // } 
-    // else {
     const astrologer = await AstroFollowers.findOneAndUpdate(
-      { _id: astrologerId },
+      { astroid, userid: astroid, userid: userid },
       { $set: { status: false } },
       { new: true }
     );
 
     if (astrologer) {
-      const deletedAstrologer = await AstroFollowers.findOneAndDelete({ _id: astrologerId, status: false });
-      return res.status(200).json({ message: "unfollowed successfully." });
+      const deletedAstrologer = await AstroFollowers.findOneAndDelete({ astroid: astroid, userid: userid, status: false });
+      return res.status(200).json({ message: "Unfollowed successfully." });
     } else {
       return res.status(404).json({ message: "Astrologer not found." });
     }
-    // }
   } catch (error) {
     return res.status(500).json({ message: "An error occurred.", error: error });
   }
 };
+
 
 
 
