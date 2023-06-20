@@ -65,7 +65,7 @@ exports.dlt_AstroFollowers = async (req, res) => {
 
 exports.getone_followers = async (req, res) => {
   await AstroFollowers.findOne({ $and: [{ userid: req.params.userid }, { astroid: req.params.astroid }] })
-    .populate("userid").populate("astroid")
+    
 
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
