@@ -3,30 +3,30 @@ const Schema = mongoose.Schema;
 
 const thisSchema = new Schema(
   {
-    astroid:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "astrologer",
+    astroid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "astrologer",
     },
-    userid:{
+    userid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
     question: {
       type: String,
     },
-    answer:{
+    answer: {
       type: String,
     },
-    type:{
-      type:String
+    type: {
+      type: String
     },
-    status:{
-      type:String
+    status: {
+      type: String
     },
     // bannertype: {
     //   type: String,
     // },
-   
+
   },
   { timestamps: true }
 );

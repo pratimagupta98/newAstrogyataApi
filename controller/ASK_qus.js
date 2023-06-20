@@ -2,13 +2,14 @@ const Askqustion = require("../models/ASK_qus");
 const resp = require("../helpers/apiResponse");
 
 exports.user_ask_qus = async (req, res) => {
-  const { astroid,userid,question,answer} = req.body;
+  const { astroid,userid,question,answer,status} = req.body;
 
   const newAskqustion = new Askqustion({
     astroid:astroid,
     userid:userid,
     question:question,
-    answer:answer
+    answer:answer,
+    status:status,
     
    });
    
