@@ -714,44 +714,86 @@ exports.logout = async (req, res) => {
 //   }
 // };
 
-exports.astrologerFilter = async (req, res) => {
-  try {
-    // Extract the filter parameters from the request query
-    const { all_skills, language, status } = req.query;
+// exports.astrologerFilter = async (req, res) => {
+//   try {
+//     // Extract the filter parameters from the request query
+//     const { all_skills, language, status } = req.query;
 
-    // Create an empty filter object
-    const filter = {};
+//     // Create an empty filter object
+//     const filter = {};
 
-    // Add filter conditions based on the provided parameters
-    // if (all_skills) {
-    //   const skills = all_skills.split(",").map(skill => skill.trim());
-    //   filter.all_skills = { $in: skills };
-    // }
-    // console.log("all_skills", all_skills)
+//     // Add filter conditions based on the provided parameters
+//     // if (all_skills) {
+//     //   const skills = all_skills.split(",").map(skill => skill.trim());
+//     //   filter.all_skills = { $in: skills };
+//     // }
+//     // console.log("all_skills", all_skills)
 
-    // if (language) {
-    //   filter.language = language;
-    // }
+//     // if (language) {
+//     //   filter.language = language;
+//     // }
 
-    if (status) {
-      filter.status = status;
-    }
+//     if (status) {
+//       filter.status = status;
+//     }
 
-    // Use the filter object to query the database
-    const astrologers = await Astrologer.find(filter);
-    console.log("astrologers", astrologers)
-    // Return the filtered astrologers in the API response
-    return res.status(200).json({
-      message: "success",
-      count: astrologers.length,
-      data: astrologers
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: "Internal server error"
-    });
-  }
+//     // Use the filter object to query the database
+//     const astrologers = await Astrologer.find(filter);
+//     console.log("astrologers", astrologers)
+//     // Return the filtered astrologers in the API response
+//     return res.status(200).json({
+//       message: "success",
+//       count: astrologers.length,
+//       data: astrologers
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       message: "Internal server error"
+//     });
+//   }
+// };
+
+
+
+exports.filterAstrologers = async (req, res) => {
+  const specification = req.query.specification || "";
+  let skills = req.query.skills || "All";
+  let languages = req.query.languages || "All";
+  let status = req.query.status || "";
+
+  const all_skills = ["Vedic", "Prashana", "Palmistry"];
+  const all_language = ["Hindi", "English"];
+
+  skills === "All"
+    ? (skills = [...all_skills])
+    : (skills = req.query.skills.split(","));
+
+  languages === "All"
+    ? (languages = [...all_language])
+    : (languages = req.query.languages.split(","));
+
+  const astrologers = await Astrologer.find({
+    specification: { $regex: specification, $options: "i" },
+    status: { $regex: status, $options: "i" },
+  })
+    .where("skills")
+    .in([...skills])
+    .where("languages")
+    .in([...languages]);
+
+  const total = await Astrologer.countDocuments({
+    skills: { $in: [...skills] },
+    languages: { $in: [...languages] },
+  });
+
+  const response = {
+    error: false,
+    total,
+    skills: all_skills,
+    languages: all_languages,
+    astrologers,
+  };
+
+  res.status(200).json(response);
 };
-
-

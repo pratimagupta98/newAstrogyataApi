@@ -28,7 +28,7 @@ const {
   rating_high_to_low,
   rating_low_to_high,
   logout,
-  astrologerFilter
+  filterAstrologers
 
 } = require("../controller/astrologer");
 
@@ -99,7 +99,7 @@ router.get("/user/price_low_to_high", price_low_to_high);
 router.get("/user/rating_high_to_low", rating_high_to_low);
 router.get("/user/rating_low_to_high", rating_low_to_high);
 router.get("/user/logout", logout);
-router.post("/user/astrologerFilter", astrologerFilter);
+router.post("/user/filterAstrologers", filterAstrologers);
 
 
 
