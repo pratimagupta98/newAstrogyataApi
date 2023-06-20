@@ -70,3 +70,51 @@ exports.getone_followers = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+exports.unfollow_astrologer = async (req, res) => {
+  const astrologerId = req.params.id;
+
+  try {
+    const deletedAstrologer = await AstroFollowers.findOneAndDelete({ _id: astrologerId, status: false });
+
+    if (deletedAstrologer) {
+      resp.successr(res, "Astrologer unfollowed and deleted successfully.");
+    } else {
+      const astrologer = await AstroFollowers.findOneAndUpdate(
+        { _id: astrologerId },
+        { $set: { status: false } },
+        { new: true }
+      );
+
+      if (astrologer) {
+        resp.successr(res, "unfollowed successfully.");
+      } else {
+        resp.errorr(res, "Astrologer not found.");
+      }
+    }
+  } catch (error) {
+    resp.errorr(res, error);
+  }
+};
+
+
+
+
+// exports.unfollow_astrologer = async (req, res) => {
+//   const astrologerId = req.params.id;
+
+//   try {
+//     const astrologer = await like.findOne({ _id: astrologerId });
+
+//     if (astrologer.status === false) {
+//       await like.deleteOne({ _id: astrologerId });
+//       resp.successr(res, "Astrologer unfollowed and deleted successfully.");
+//     } else {
+//       astrologer.status = false;
+//       await astrologer.save();
+//       resp.successr(res, "Astrologer unfollowed successfully.");
+//     }
+//   } catch (error) {
+//     resp.errorr(res, error);
+//   }
+// };

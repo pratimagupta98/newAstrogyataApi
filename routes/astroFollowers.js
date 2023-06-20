@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 const {
-    addAstroFollowers, getone_followers
+    addAstroFollowers, getone_followers, unfollow_astrologer
 
 } = require("../controller/astroFollowers");
 
@@ -12,6 +12,7 @@ const {
 router.post("/user/addAstroFollowers", addAstroFollowers);
 router.get("/user/getone_followers/:userid/:astroid", getone_followers);
 
+router.get("/user/unfollow_astrologer/:id", unfollow_astrologer);
 
 module.exports = router;
 
