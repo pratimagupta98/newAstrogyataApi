@@ -11,7 +11,7 @@ const thisSchema = new Schema(
         status: {
             type: String
         },
-        videolink: {
+        videoliveStream: {
             type: String
         }
 

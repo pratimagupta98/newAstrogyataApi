@@ -2,13 +2,13 @@ const WebLivestream = require("../models/webAstroliveStream");
 const resp = require("../helpers/apiResponse");
 
 exports.WebliveStream = async (req, res) => {
-    const { astroid, status, videolink } = req.body;
+    const { astroid, status, videoliveStream } = req.body;
 
 
     const newWebLivestream = new WebLivestream({
         astroid: astroid,
         status: status,
-        videolink: videolink
+        videoliveStream: videoliveStream
     });
 
     newWebLivestream
