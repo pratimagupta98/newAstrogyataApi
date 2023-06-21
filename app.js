@@ -68,6 +68,7 @@ const yog_liveStream = require("./routes/yog_liveStream")
 const astroVideo_token = require("./routes/astroVideo_token")
 const videoLinkNoti = require("./routes/videoLinkNoti")
 const astroFollowers = require("./routes/astroFollowers")
+const webAstroliveStream = require("./routes/webAstroliveStream")
 
 
 
@@ -131,7 +132,8 @@ app.use("/", astroVideo_token);
 app.use("/", videoLinkNoti);
 app.use("/", astroFollowers);
 
-
+app.use("/", webAstroliveStream
+);
 
 
 
