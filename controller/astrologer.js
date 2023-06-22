@@ -777,9 +777,11 @@ exports.getAstrologers = async (req, res) => {
   });
 
   const response = {
-    error: false,
-    total,
-    astrologers,
+    status: true,
+    "message": "success",
+    "count": total,
+    "data":astrologers,
+    
   };
 
   res.status(200).json(response);
