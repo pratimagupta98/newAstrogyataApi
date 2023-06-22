@@ -122,6 +122,10 @@ const thisSchema = new Schema(
       type: String,
       default: "Offline"
     },
+    callingStatus: {
+      type: String,
+      default: "Available",
+    },
     callCharge: {
       type: Number
     },
@@ -142,6 +146,11 @@ const thisSchema = new Schema(
     waiting_queue: {
       type: Number,
       default: 0
+    },
+    waitQueue: Array,
+    waiting_tym: {
+      type: Number,
+      default: 0,
     },
     // availability: [{
     //   type: String,
@@ -164,6 +173,9 @@ const thisSchema = new Schema(
     sunday: { type: Array },
     channelName: {
       type: String,
+    },
+    specification: {
+      type: String
     },
     // sunday: [
     //   {

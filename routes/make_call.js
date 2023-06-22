@@ -5,7 +5,7 @@ const fs = require("fs");
 const agora = require('agora-access-token');
 
 const {
-    make_call, callStatus, call_Status, astroVideoCall, userVideoCall, astroCallHistory, userCallHistory
+    make_call, callStatus, call_Status, astroVideoCall, userVideoCall, astroCallHistory, userCallHistory, on_make_another_call
 
 } = require("../controller/make_call");
 
@@ -19,6 +19,7 @@ router.post("/user/userVideoCall", userVideoCall);
 router.post("/user/userVideoCall", userVideoCall);
 router.get("/user/astroCallHistory/:id", astroCallHistory);
 router.get("/user/userCallHistory/:id", userCallHistory);
+router.get("/user/make_another_call/:id", on_make_another_call);
 
 
 
