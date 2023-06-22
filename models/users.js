@@ -64,6 +64,10 @@ const thisSchema = new Schema(
     },
     gender: {
       type: String
+    },
+    status: {
+      type: String,
+      default: "Active"
     }
 
   },
