@@ -136,6 +136,7 @@ const checkCallStatus = async () => {
       const response = await axios.get(url);
       const { status, data } = response;
       let duration = 0;
+
       if (status === 200) {
         const callStatus = data.Call.Status;
         console.log(data);

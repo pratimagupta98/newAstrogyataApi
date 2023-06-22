@@ -470,3 +470,30 @@ exports.fogetpassword = async (req, res) => {
     })
   }
 };
+
+exports.userCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+exports.activeUserCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments({ status: "Active" });
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+exports.inActiveUserCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments({ status: "Inactive" });
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};

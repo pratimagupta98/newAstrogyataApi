@@ -23,9 +23,14 @@ const thisSchema = new Schema(
     status: {
       type: String
     },
-    // bannertype: {
-    //   type: String,
-    // },
+    bundleOffer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "consultant",
+    },
+    view_button: {
+      type: String,
+      default: "true"
+    }
 
   },
   { timestamps: true }
