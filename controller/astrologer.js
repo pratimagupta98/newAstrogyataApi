@@ -756,42 +756,29 @@ exports.logout = async (req, res) => {
 
 
 
-exports.filterAstrologers = async (req, res) => {
+exports.getAstrologers = async (req, res) => {
   const specification = req.query.specification || "";
-  let skills = req.query.skills || "All";
-  let languages = req.query.languages || "All";
+  let skills = req.query.skills || "";
+  let languages = req.query.languages || "";
   let status = req.query.status || "";
 
-  const all_skills = ["Vedic", "Prashana", "Palmistry"];
-  const all_language = ["Hindi", "English"];
-
-  skills === "All"
-    ? (skills = [...all_skills])
-    : (skills = req.query.skills.split(","));
-
-  languages === "All"
-    ? (languages = [...all_language])
-    : (languages = req.query.languages.split(","));
-
-  const astrologers = await Astrologer.find({
+  let astrologers = await Astrologer.find({
     specification: { $regex: specification, $options: "i" },
     status: { $regex: status, $options: "i" },
-  })
-    .where("skills")
-    .in([...skills])
-    .where("languages")
-    .in([...languages]);
+    all_skills: { $regex: skills, $options: "i" },
+    language: { $regex: languages, $options: "i" },
+  });
 
   const total = await Astrologer.countDocuments({
-    skills: { $in: [...skills] },
-    languages: { $in: [...languages] },
+    specification: { $regex: specification, $options: "i" },
+    status: { $regex: status, $options: "i" },
+    all_skills: { $regex: skills, $options: "i" },
+    language: { $regex: languages, $options: "i" },
   });
 
   const response = {
     error: false,
     total,
-    skills: all_skills,
-    languages: all_languages,
     astrologers,
   };
 

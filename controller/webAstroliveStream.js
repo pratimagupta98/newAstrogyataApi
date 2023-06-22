@@ -21,7 +21,12 @@ const Astrologer = require("../models/astrologer");
 //         .catch((error) => resp.errorr(res, error));
 // };
 
-
+exports.listWebLiveStream = async (req, res) => {
+    await AsLive.find({ status: true }).populate("astroAccount")
+        .sort({ createdAt: -1 })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+};
 
 
 
