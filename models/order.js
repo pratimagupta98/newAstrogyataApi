@@ -14,25 +14,25 @@ const OrderSchema = new Schema(
             type: String,
             default: "Pending",
             // enum: ["Pending", "complete", "Cancel", "Delivery"]
-          },
-          userid:{
+        },
+        userid: {
             type: mongoose.Schema.Types.ObjectId, ref: "user"
-          },
+        },
         razorpay_payment_id: {
             type: String,
         },
         orderId: {
             type: String,
         },
-        orderNote:{
+        orderNote: {
             type: String
         },
         date: {
             type: String
         },
-         product:{
+        products: {
             type: mongoose.Schema.Types.ObjectId, ref: "consultant"
-         }
+        }
 
     },
 

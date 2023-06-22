@@ -780,8 +780,8 @@ exports.getAstrologers = async (req, res) => {
     status: true,
     "message": "success",
     "count": total,
-    "data":astrologers,
-    
+    "data": astrologers,
+
   };
 
   res.status(200).json(response);
