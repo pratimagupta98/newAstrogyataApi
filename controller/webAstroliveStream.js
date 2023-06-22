@@ -25,7 +25,7 @@ exports.closeLiveStream = async (req, res) => {
 }
 
 exports.listWebLiveStream = async (req, res) => {
-    await WebLivestream.find({ status: true }).populate("astroAccount")
+    await WebLivestream.find({ status: "live" }).populate("astroid")
         .sort({ createdAt: -1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
