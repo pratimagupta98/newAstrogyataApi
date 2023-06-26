@@ -1,31 +1,56 @@
 const Askqustion = require("../models/ASK_qus");
 const resp = require("../helpers/apiResponse");
 const Product = require("../models/product");
+const Order = require("../models/order");
 const Astroproduct = require("../models/astroproduct");
 
 exports.user_ask_qus = async (req, res) => {
-  const { astroid, userid, question, answer, bundleOffer } = req.body;
+  const { astroid, userid, question, answer } = req.body;
 
-  const questions = await Askqustion.find({ userid: userid });
-  const product = await Astroproduct.findOne({ _id: bundleOffer }).populate("product")
-
-  if (questions.length > product.product.qsCount - 1) {
-    console.log("your question limit over")
-    res.status(200).json({
-      msg: "Your Question limit is Over"
-    })
-
-    await Askqustion.updateMany(
+  const getdata = await Order.find({
+    $and: [
+      { status: "COMPLETED" }, { astroid: req.body.astroid },
       { userid: userid },
-      { $set: { view_button: "false" } },
-      { new: true })
+
+    ],
+  })
+
+    .populate({
+      path: "products",
+      populate: {
+        path: "product",
+      },
+    });
+
+  console.log("getdatassss", getdata);
+  let totalQsCount = 0;
+  for (const order of getdata) {
+    totalQsCount += order.products.qsCount;
+  }
+   console.log("totalQsCount", totalQsCount)
+  const questions = await Askqustion.find({ userid: userid });
+
+
+  if (questions.length > totalQsCount - 1) {
+    console.log("your question limit is over");
+    res.status(403).json({
+      msg: "Your question limit is over",
+      limit: totalQsCount
+    });
+
+    const lastQuestion = questions[questions.length - 1];
+    await Askqustion.findOneAndUpdate(
+      { _id: lastQuestion._id },
+      { $set: { view_button: false } },
+      { new: true }
+    );
   } else {
     const newAskqustion = new Askqustion({
       astroid: astroid,
       userid: userid,
       question: question,
       answer: answer,
-      bundleOffer: bundleOffer
+      
     });
 
     newAskqustion
@@ -33,7 +58,8 @@ exports.user_ask_qus = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   }
-}
+};
+
 
 exports.user_ask_qus_list = async (req, res) => {
   await Askqustion.find({ userid: req.params.id })

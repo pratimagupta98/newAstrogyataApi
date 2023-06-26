@@ -26,6 +26,10 @@ const thisSchema = new Schema(
       type: String,
       default: "Active",
     },
+    qsCount:{
+      type:Number,
+      default:0
+    },
   },
   { timestamps: true }
 );
