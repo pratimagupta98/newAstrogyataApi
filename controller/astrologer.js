@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
 const { data } = require("jquery");
+const User = require("../models/users");
+
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -822,3 +824,31 @@ exports.busyAstroCount = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+
+exports.getWaitQueueList = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const astrologer = await Astrologer.findById(id).populate("waitQueue", "name email");
+
+    if (!astrologer) {
+      return res.status(404).json({ error: "Astrologer not found" });
+    }
+
+    const waitQueueList = astrologer.waitQueue;
+    const userList = [];
+
+    for (const userId of waitQueueList) {
+      const user = await User.findById(userId);
+      if (user) {
+        userList.push(user);
+      }
+    }
+
+    res.status(200).json({ waitQueueList: userList });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch waitQueue list" });
+  }
+}
