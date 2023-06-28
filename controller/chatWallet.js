@@ -157,65 +157,160 @@ const WalletT = require("../models/walletTransaction");
 
 // }
 exports.addCallWallet = async (req, res) => {
-  const { userid, astroid } = req.body;
-  const getoneastro = await Astrologer.findOne({ _id: req.body.astroid });
-  console.log("getoneastro", getoneastro);
+  const { userid, astroid, recharge_planId, beforeAmt, deductedAmt, finalAmt } = req.body;
 
+
+  const getoneastro = await Astrologer.findOne({ _id: req.body.astroid })
+  //console.log("ASTRO",getoneastro)
   if (getoneastro) {
-    if (getoneastro.min_tym !== undefined) {
-      const getminamt = getoneastro.min_tym;
-      console.log("getminamt", getminamt);
+    const getcharge = getoneastro.callCharge
+    // console.log("CALLCHARGE", getcharge)
 
-      const getuserdetail = await User.findOne({ _id: req.body.userid });
+    //  const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
+    //  console.log("MIN PLAN",getplanchrge)
+    //  if(getplanchrge){
+    //  const getplan = getplanchrge.minute
+    //  console.log("getplan",getplan)
+    const minute = 5
 
-      if (getuserdetail) {
-        const getwalletamt = getuserdetail.amount;
-        console.log("getwalletamt", getwalletamt);
 
-        let callCharge = getminamt;
-        console.log("callCharge", callCharge);
+    const getuserdetail = await User.findOne({ _id: req.body.userid })
+    //console.log("GETUSER",getuserdetail)
+    if (getuserdetail) {
+      let totalamt = getcharge * minute
+      //  console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+      const getwalletamt = getuserdetail.amount
+      //  console.log("WALLET AMT", getwalletamt)
+      let newamt = 0
+      if (getwalletamt > totalamt) {
+        console.log("success")
+        const chatWalletData = {
+          userid: req.body.userid,
+          astroid: req.body.astroid,
 
-        if (getwalletamt >= callCharge) {
-          const chatWalletData = {
-            userid: req.body.userid,
-            astroid: req.body.astroid,
-            callCharge: callCharge,
-            type: "Voice Call"
-          };
+          type: "Voice Call"
+        };
 
-          const chatWallet = new ChatWallet(chatWalletData);
-          await chatWallet.save();
+        const chatWallet = new ChatWallet(chatWalletData);
+        await chatWallet.save();
+        // newamt =getwalletamt - totalamt
+        // console.log("camt",getwalletamt)
+        // console.log("new",newamt)
 
-          res.status(200).json({
-            status: true,
-            msg: "Success",
-            // type: "Voice Call"
-          });
-        } else {
-          res.status(201).json({
-            status: false,
-            msg: "Insufficient balance"
-          });
-        }
+        // const newChatWallet = new ChatWallet({
+        //   userid:userid,
+        //   astroid:astroid,
+        //   recharge_planId:recharge_planId,
+        //   type:"Voice Call",
+        //   tran_Type:"Debited",
+        //   conversationId:"#"+ Date.now(),
+        //   beforeAmt:getwalletamt,
+        //             deductedAmt:totalamt,
+        //             finalAmt:newamt
+
+        // })
+        // const newWalletT = new WalletT({
+        // userid:userid,
+        //   astroid:astroid,
+        //   recharge_planId:recharge_planId,
+        //   type:"Voice Call",
+        //   tran_Type:"Debited",
+        //   conversationId:"#"+ Date.now(),
+        //   beforeAmt:getwalletamt,
+        //             deductedAmt:totalamt,
+        //             finalAmt:newamt
+        // })
+        // newChatWallet.save()
+        //         .then(async(data) => {
+        //           const createnewtable = await WalletT.create(newWalletT);
+        //           console.log("MMMMMM",createnewtable)
+        //           res.status(200).json({
+        //             status: true,
+        //             msg: "success",
+        //             data: data,
+        //             beforeAmt:getwalletamt,
+        //             deductedAmt:totalamt,
+        //             finalAmt:newamt
+
+        //             // callCharge:getoneastro.callCharge,
+        //             // minute:
+        //           });
+        //         }) 
+        //         .catch((error) => {
+        //           res.status(400).json({
+        //             status: false,
+        //             msg: "error",
+        //             error: error,
+        //           });
+        //         });
+        //         const finduserAndupdate = await User.findOneAndUpdate(
+
+        //             { _id: req.body.userid },
+
+        //             { $set: {amount:newamt,deductedAmt:totalamt } },
+
+        //           //     { amount: currntamt },
+
+        //           // { $set: {status:"success"} },
+        //           { new: true },
+        //           )
+        //           if(finduserAndupdate){
+        // console.log("UPDATE USER AMOUNT",finduserAndupdate)
+
+        //           }
+        // const tableUpdate = await ChatWallet.findOneAndUpdate(
+
+        //   { userid: req.body.userid },
+
+        //   { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
+        // { new: true },
+        // )
+        // if(tableUpdate){
+        //   console.log("UPDATE",tableUpdate)
+
+        //             }
+
+        //             const updateSuccess = await WalletT.findOneAndUpdate(
+
+        //               { userid: req.body.userid },
+
+        //               { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
+        //             { new: true },
+        //             )
+        //             if(updateSuccess){
+        //               console.log("UPDATE",updateSuccess)
+
+        //                         }
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          type: "Voice Call"
+        })
+
       } else {
-        res.status(400).json({
+        console.log("INSUFFICIENT BALANCE")
+        res.status(201).json({
           status: false,
-          msg: "Invalid user"
-        });
+          msg: "Insufficient belence"
+        })
       }
+
     } else {
+      // console.log("ERROR")
       res.status(400).json({
         status: false,
-        msg: "Invalid min_tym"
-      });
+        msg: "Something Went Wrong"
+      })
     }
   } else {
+    // console.log("error")
     res.status(400).json({
       status: false,
-      msg: "Invalid astrologer"
-    });
+      msg: "Something Went Wrong"
+    })
   }
-};
+
+}
 
 
 exports.addVideoCallWallet = async (req, res) => {
