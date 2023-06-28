@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-const Joi = require('joi');
+const Joi = require("joi");
 const Schema = mongoose.Schema;
 const thisSchema = new Schema(
   {
-
     //   fullname: Joi.string()
     // //  .alphanum()
     //   .min(3)
@@ -15,8 +14,7 @@ const thisSchema = new Schema(
     },
     mobile: {
       type: Number,
-      required: true
-
+      required: true,
     },
     email: {
       type: String,
@@ -33,9 +31,9 @@ const thisSchema = new Schema(
     },
     img: {
       type: Array,
-      default: "https://res.cloudinary.com/dc7hzwpbm/image/upload/v1665055219/pngtree.jpg"
+      default:
+        "https://res.cloudinary.com/dc7hzwpbm/image/upload/v1665055219/pngtree.jpg",
     },
-
 
     otp: { type: String },
     gender: {
@@ -120,14 +118,14 @@ const thisSchema = new Schema(
     },
     status: {
       type: String,
-      default: "Offline"
+      default: "Offline",
     },
     callingStatus: {
       type: String,
       default: "Available",
     },
     callCharge: {
-      type: Number
+      type: Number,
     },
     otpverify: {
       type: String,
@@ -141,11 +139,11 @@ const thisSchema = new Schema(
     },
     avg_rating: {
       type: Number,
-      default: 0
+      default: 0,
     },
     waiting_queue: {
       type: Number,
-      default: 0
+      default: 0,
     },
     waitQueue: Array,
     waiting_tym: {
@@ -155,12 +153,11 @@ const thisSchema = new Schema(
     // availability: [{
     //   type: String,
     // }],
-    min_tym: {
-      type: Number
+    min_amount: {
+      type: Number,
     },
-    max_tym: {
-      type: Number
-
+    max_amount: {
+      type: Number,
     },
     // availability: {
     //   type: Object, default: {
@@ -174,8 +171,23 @@ const thisSchema = new Schema(
     channelName: {
       type: String,
     },
+    totalEarning: [
+      {
+        amount: {
+          type: Number,
+          default: 0,
+        },
+        date: {
+          type: Date,
+          default: new Date(),
+        },
+      },
+    ],
+    ownamount: {
+      type: Number,
+    },
     specification: {
-      type: String
+      type: String,
     },
     // sunday: [
     //   {
@@ -187,17 +199,9 @@ const thisSchema = new Schema(
     //     end: "2PM"
     //   }
     // ]
-
   },
-
-
-
-
-
-
 
   { timestamps: true }
 );
-
 
 module.exports = mongoose.model("astrologer", thisSchema);
