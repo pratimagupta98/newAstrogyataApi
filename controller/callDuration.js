@@ -83,3 +83,14 @@ exports.deductBalance = async (req, res) => {
     );
 };
 
+exports.changeToAvailable = async (req, res) => {
+    await Astrologer.updateOne({ _id: req.body.id }, { status: "Available" })
+      .then((res) => {
+        console.log(res);
+        res.staus(200).send("Status updated successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  

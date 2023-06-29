@@ -5,7 +5,7 @@ const thisSchema = new Schema(
   {
     adminimg: {
       type: Array,
-     
+
     },
     name: {
       type: String,
@@ -22,8 +22,23 @@ const thisSchema = new Schema(
     cnfmPassword: {
       type: String,
     },
-   
- 
+    admincomision: {
+      type: Number
+    },
+
+    totalEarning: [
+      {
+        amount: {
+          type: Number,
+          default: 0,
+        },
+        date: {
+          type: Date,
+          default: new Date(),
+        },
+      },
+    ],
+
   },
   { timestamps: true }
 );

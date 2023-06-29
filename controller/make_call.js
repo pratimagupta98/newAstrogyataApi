@@ -1,5 +1,6 @@
 const make_call = require("../models/make_call.js");
 const VideoModel = require("../models/videomodel.js");
+const AdminComision = require("../models/admin");
 
 const Astrologer = require("../models/astrologer");
 
@@ -125,6 +126,7 @@ exports.make_call = async (req, res) => {
           " and astrologer charge is ",
           astrologer.callCharge
         );
+
         res.status(200).json({ order: options });
         checkCallStatus();
       }
@@ -218,13 +220,31 @@ const checkCallStatus = async () => {
               { _id: callDetails.callId },
               { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur }
             );
+
+
+            const getcom = await AdminComision.findOne({
+              _id: "64967ef62cf27fc5dd12416d"
+            })
+            console.log("getcom", getcom.admincomision)
+            const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
+            const adminCommission = parseFloat(getadmincommision.toFixed(2));
+            console.log("getadmincommision", adminCommission)
+
+            let admincom = await AdminComision.updateOne(
+              { _id: "64967ef62cf27fc5dd12416d" },
+              {
+
+                $push: { totalEarning: { amount: adminCommission } },
+              }
+            );
             console.log(totalDeductedAmount);
+            console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
               {
                 callingStatus: "Available",
                 waiting_tym: 0,
-                $push: { totalEarning: { amount: totalDeductedAmount } },
+                $push: { totalEarning: { amount: totalDeductedAmount - adminCommission } },
               }
             );
             // console.log(updatestst);
@@ -304,13 +324,16 @@ const checkCallStatus = async () => {
 };
 
 exports.on_make_another_call = async (req, res) => {
-  const { userId } = req.body;
+  const { userId, callType } = req.body;
   let { id } = req.params;
 
   try {
-    await Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } });
+    const senddata = await Astrologer.updateOne(
+      { _id: id },
+      { $push: { waitQueue: { userId, callType } } }
+    );
     console.log("Data updated successfully");
-    res.status(200).json({ message: "Added in waitQueue list" });
+    res.status(200).json({ message: "Added in waitQueue list", data: req.body });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to update data" });
