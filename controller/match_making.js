@@ -473,6 +473,13 @@ const api = 'panchang_festival';
 // const apiKey = '220d9d0777a7645f8f62e6b03354cf51';
 
 exports.birth_details = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
   var api = 'birth_details';
   var userId = process.env.USERID;
   var apiKey = process.env.APIKEY;
@@ -487,20 +494,54 @@ exports.birth_details = async (req, res) => {
     tzone: 5.5,
   };
 
+  // const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
+
+  // axios.post(`https://json.astrologyapi.com/v1/${api}`, data, {
+  //   headers: {
+  //     'Authorization': auth,
+  //     'Content-Type': 'application/json'
+  //   }
+  // })
+  //   .then((response) => {
+  //     // console.log(response.data);
+  //     res.status(200).json({
+  //       status: true,
+  //       msg: "success",
+  //       data: response
+  //     })
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+
   const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
 
-  axios.post(`https://json.astrologyapi.com/v1/${api}`, data, {
+
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
     headers: {
-      'Authorization': auth,
-      'Content-Type': 'application/json'
-    }
-  })
-    .then((response) => {
-      console.log(response.data);
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    //  console.log(resp);
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: resp
     })
-    .catch((error) => {
-      console.log(error);
-    });
+  }, function (err) {
+    //  console.log(err);
+    res.status(405).json({
+      err
+    })
+
+  });
 }
 
 exports.lalkitab_horoscope = async (req, res) => {
