@@ -70,6 +70,18 @@ const thisSchema = new Schema(
       type: Number,
       default: 0
     },
+    astroCredited: {
+      type: Number,
+      default: 0
+    },
+    adminCredited: {
+      type: Number,
+      default: 0
+    },
+    totalCredited: {
+      type: Number,
+      default: 0
+    },
     userAmt: {
       type: Number,
       default: 0

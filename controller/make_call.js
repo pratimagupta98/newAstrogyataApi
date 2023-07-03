@@ -134,7 +134,7 @@ exports.make_call = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: "Internal server error",
+      error: err,
     });
   }
 };
@@ -198,6 +198,8 @@ const checkCallStatus = async () => {
         const callStatus = data.Call.Status;
         const calldur = data.Call.Duration;
         console.log("callduration", calldur)
+        let ttlminute = calldur / 60
+        console.log("ttlminute", ttlminute)
         let user = await User.find({ _id: callDetails.userId });
         let astrologer = await Astrologer.find({ _id: callDetails.astroid });
         user = user[0];
@@ -214,22 +216,21 @@ const checkCallStatus = async () => {
             callDetails.previousUserBalance - user.amount;
           const useramt =
             user.amount - parseInt(duration * astrologer.callCharge);
+          console.log("totalDeductedAmount", totalDeductedAmount)
+          const getcom = await AdminComision.findOne({
+            _id: "64967ef62cf27fc5dd12416d"
+          })
+          console.log("getcom", getcom.admincomision)
+          const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
+          const adminCommission = ttlminute * getadmincommision
+          console.log("getadmincommision", adminCommission)
+
 
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
-              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur }
+              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
             );
-
-
-            const getcom = await AdminComision.findOne({
-              _id: "64967ef62cf27fc5dd12416d"
-            })
-            console.log("getcom", getcom.admincomision)
-            const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
-            const adminCommission = parseFloat(getadmincommision.toFixed(2));
-            console.log("getadmincommision", adminCommission)
-
             let admincom = await AdminComision.updateOne(
               { _id: "64967ef62cf27fc5dd12416d" },
               {
@@ -239,6 +240,9 @@ const checkCallStatus = async () => {
             );
             console.log(totalDeductedAmount);
             console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
+            let astroCommision = totalDeductedAmount - adminCommission
+            let ttlastroCommision = astroCommision * ttlminute
+            console.log("ttlastroCommision", ttlastroCommision)
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
               {
@@ -323,6 +327,7 @@ const checkCallStatus = async () => {
   });
 };
 
+
 exports.on_make_another_call = async (req, res) => {
   const { userId, callType } = req.body;
   let { id } = req.params;
@@ -330,7 +335,15 @@ exports.on_make_another_call = async (req, res) => {
   try {
     const senddata = await Astrologer.updateOne(
       { _id: id },
-      { $push: { waitQueue: { userId, callType } } }
+      {
+        $push: {
+          waitQueue: {
+            userId,
+            callType,
+            createdAt: new Date() // Add the createdAt parameter with the current date and time
+          }
+        }
+      }
     );
     console.log("Data updated successfully");
     res.status(200).json({ message: "Added in waitQueue list", data: req.body });
@@ -339,6 +352,9 @@ exports.on_make_another_call = async (req, res) => {
     res.status(500).json({ error: "Failed to update data" });
   }
 };
+
+
+
 
 exports.getEarnings = async (req, res) => {
   const { id } = req.params;
@@ -363,21 +379,21 @@ exports.getEarnings = async (req, res) => {
     }
     report.total += e.amount;
   })
+
+  report.today = parseFloat(report.today.toFixed(2));
+  report.week = parseFloat(report.week.toFixed(2));
+  report.month = parseFloat(report.month.toFixed(2));
+  report.total = parseFloat(report.total.toFixed(2));
   // console.log(report)
   res.status(200).json({
     status: true,
     message: "success",
     data: report
   })
-  // .then((data) => resp.successr(res, data))
-  //   .catch((error) => resp.errorr(res, error));
+
 };
 
-// Schedule the cron job to run every minute
-// const cron_job = cron.schedule('* * * * * *', async () => {
-//   console.log("checking 1 second")
-//   await checkCallStatus()
-// });
+
 
 exports.call_Status = async (req, res) => {
   await make_call
@@ -503,7 +519,8 @@ exports.Calling = async (req, res) => {
 
 exports.astroCallHistory = async (req, res) => {
   await make_call
-    .find({ astroid: req.params.id })
+    .find({ $and: [{ astroid: req.params.id }, { Status: "completed" }] })
+
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })
@@ -513,7 +530,7 @@ exports.astroCallHistory = async (req, res) => {
 
 exports.userCallHistory = async (req, res) => {
   await make_call
-    .find({ userid: req.params.id })
+    .find({ $and: [{ userid: req.params.id }, { Status: "completed" }] })
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })
@@ -539,7 +556,7 @@ exports.dlCallHistory = async (req, res) => {
 
 exports.adminCallHistory = async (req, res) => {
   await make_call
-    .find().populate("userid").populate("astroid")
+    .find({ Status: "completed" }).populate("userid").populate("astroid")
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })

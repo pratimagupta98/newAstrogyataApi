@@ -188,103 +188,19 @@ exports.addCallWallet = async (req, res) => {
           userid: req.body.userid,
           astroid: req.body.astroid,
 
-          type: "Voice Call"
+          type: "Chat"
         };
 
         const chatWallet = new ChatWallet(chatWalletData);
         await chatWallet.save();
-        // newamt =getwalletamt - totalamt
-        // console.log("camt",getwalletamt)
-        // console.log("new",newamt)
-
-        // const newChatWallet = new ChatWallet({
-        //   userid:userid,
-        //   astroid:astroid,
-        //   recharge_planId:recharge_planId,
-        //   type:"Voice Call",
-        //   tran_Type:"Debited",
-        //   conversationId:"#"+ Date.now(),
-        //   beforeAmt:getwalletamt,
-        //             deductedAmt:totalamt,
-        //             finalAmt:newamt
-
-        // })
-        // const newWalletT = new WalletT({
-        // userid:userid,
-        //   astroid:astroid,
-        //   recharge_planId:recharge_planId,
-        //   type:"Voice Call",
-        //   tran_Type:"Debited",
-        //   conversationId:"#"+ Date.now(),
-        //   beforeAmt:getwalletamt,
-        //             deductedAmt:totalamt,
-        //             finalAmt:newamt
-        // })
-        // newChatWallet.save()
-        //         .then(async(data) => {
-        //           const createnewtable = await WalletT.create(newWalletT);
-        //           console.log("MMMMMM",createnewtable)
-        //           res.status(200).json({
-        //             status: true,
-        //             msg: "success",
-        //             data: data,
-        //             beforeAmt:getwalletamt,
-        //             deductedAmt:totalamt,
-        //             finalAmt:newamt
-
-        //             // callCharge:getoneastro.callCharge,
-        //             // minute:
-        //           });
-        //         }) 
-        //         .catch((error) => {
-        //           res.status(400).json({
-        //             status: false,
-        //             msg: "error",
-        //             error: error,
-        //           });
-        //         });
-        //         const finduserAndupdate = await User.findOneAndUpdate(
-
-        //             { _id: req.body.userid },
-
-        //             { $set: {amount:newamt,deductedAmt:totalamt } },
-
-        //           //     { amount: currntamt },
-
-        //           // { $set: {status:"success"} },
-        //           { new: true },
-        //           )
-        //           if(finduserAndupdate){
-        // console.log("UPDATE USER AMOUNT",finduserAndupdate)
-
-        //           }
-        // const tableUpdate = await ChatWallet.findOneAndUpdate(
-
-        //   { userid: req.body.userid },
-
-        //   { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
-        // { new: true },
-        // )
-        // if(tableUpdate){
-        //   console.log("UPDATE",tableUpdate)
-
-        //             }
-
-        //             const updateSuccess = await WalletT.findOneAndUpdate(
-
-        //               { userid: req.body.userid },
-
-        //               { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
-        //             { new: true },
-        //             )
-        //             if(updateSuccess){
-        //               console.log("UPDATE",updateSuccess)
-
-        //                         }
+        
+       
+     
+                               
         res.status(200).json({
           status: true,
           msg: "success",
-          type: "Voice Call"
+          type: "Chat"
         })
 
       } else {

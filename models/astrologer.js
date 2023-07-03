@@ -186,6 +186,10 @@ const thisSchema = new Schema(
     ownamount: {
       type: Number,
     },
+    availableAmt: {
+      type: Number,
+      default: 0
+    },
     specification: {
       type: String,
     },
