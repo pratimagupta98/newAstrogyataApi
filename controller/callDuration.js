@@ -46,7 +46,7 @@ exports.addCallDuration = async (req, res) => {
         }
     } catch (error) {
         console.error(error); // Log the error for debugging purposes
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Your number is not whitelisted !" });
     }
 };
 

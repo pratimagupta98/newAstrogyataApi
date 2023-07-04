@@ -134,7 +134,7 @@ exports.make_call = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: err,
+      error: "Your number is not whitelisted!",
     });
   }
 };
