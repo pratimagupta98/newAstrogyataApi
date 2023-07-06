@@ -10,10 +10,10 @@ const thisSchema = new Schema(
     blogImg: {
       type: Array,
     },
-   
+
     desc: {
       type: String,
-      default: "Active",
+      //default: "Active",
     },
   },
   { timestamps: true }

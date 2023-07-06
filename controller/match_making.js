@@ -1,5 +1,8 @@
 
 const matchMaking = require("../models/match_making.js");
+const BirthDetail = require("../models/match_making.js");
+const resp = require("../helpers/apiResponse");
+
 var sdkClient = require("../sdk");
 var $ = require("jquery");
 var btoa = require('btoa');
@@ -484,36 +487,19 @@ exports.birth_details = async (req, res) => {
   var userId = process.env.USERID;
   var apiKey = process.env.APIKEY;
   const data = {
-    day: 6,
-    month: 1,
-    year: 2000,
-    hour: 7,
-    min: 45,
-    lat: 19.132,
-    lon: 72.342,
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
     tzone: 5.5,
+    ayanamsha: req.body.ayanamsha,
+    sunrise:req.body.sunrise,
+    sunset:req.body.sunset
+
   };
-
-  // const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
-
-  // axios.post(`https://json.astrologyapi.com/v1/${api}`, data, {
-  //   headers: {
-  //     'Authorization': auth,
-  //     'Content-Type': 'application/json'
-  //   }
-  // })
-  //   .then((response) => {
-  //     // console.log(response.data);
-  //     res.status(200).json({
-  //       status: true,
-  //       msg: "success",
-  //       data: response
-  //     })
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
   const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
 
 
@@ -529,21 +515,34 @@ exports.birth_details = async (req, res) => {
   });
 
   request.then(function (resp) {
-    //  console.log(resp);
-    res.status(200).json({
-      status: true,
-      msg: "success",
-      data: resp
-    })
+    const birthDetail = new BirthDetail(data);
+    birthDetail.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
   }, function (err) {
-    //  console.log(err);
     res.status(405).json({
       err
-    })
-
+    });
   });
 }
-
+exports.getbirth_details = async (req, res) => {
+  await BirthDetail.find()
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 exports.lalkitab_horoscope = async (req, res) => {
 
   var jsdom = require('jsdom');
