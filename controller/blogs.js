@@ -20,13 +20,14 @@ cloudinary.config({
 
 exports.addBlog = async (req, res) => {
   //console.log(req.body);
-  const { blog_title,blogcategory, blogImg, desc } = req.body;
+  const { blog_title,blogcategory, blogImg, desc,status } = req.body;
 
   const newBlog = new Blog({
     blog_title: blog_title,
     blogcategory:blogcategory,
     blogImg: blogImg,
     desc: desc,
+    status:status
   });
 
   
@@ -80,7 +81,7 @@ exports.delBlog = async (req, res) => {
  
 
 exports.editBlog = async(req,res)=>{
-    const{blog_title,blogcategory,blogImg,desc} = req.body
+    const{blog_title,blogcategory,blogImg,desc,status} = req.body
     
     data ={}
     if(blog_title) {
@@ -92,6 +93,9 @@ exports.editBlog = async(req,res)=>{
     if(desc){
         data.desc = desc
     }
+    if(status){
+      data.status = status
+  }
   
     if (req.files) {
         if (req.files.blogImg) {
@@ -121,7 +125,7 @@ exports.editBlog = async(req,res)=>{
 
 
     exports.blog_by_category = async (req, res) => {
-      await Blog.find({blogcategory:req.params.id}).populate("blogcategory") 
+      await Blog.find({$and: [{ blogcategory: req.params.id }, { status: "Active" }]}).populate("blogcategory") 
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

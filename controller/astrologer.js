@@ -702,7 +702,7 @@ exports.status_change = async (req, res) => {
     {
       _id: req.params.id,
     },
-    { $set: { status: req.body.status } },
+    { $set: { status: req.body.status, callingStatus: req.body.callingStatus } },
     { new: true }
   )
     .then((data) => resp.successr(res, data))
@@ -768,7 +768,7 @@ exports.logout = async (req, res) => {
     {
       _id: astroId,
     },
-    { $set: { status: "Offline" } }
+    { $set: { status: "Offline", callingStatus: "Not available" } }
   );
   res.status(200).json({
     status: true,

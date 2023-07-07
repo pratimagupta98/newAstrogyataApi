@@ -496,8 +496,8 @@ exports.birth_details = async (req, res) => {
     lon: req.body.lon,
     tzone: 5.5,
     ayanamsha: req.body.ayanamsha,
-    sunrise:req.body.sunrise,
-    sunset:req.body.sunset
+    sunrise: req.body.sunrise,
+    sunset: req.body.sunset
 
   };
   const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");

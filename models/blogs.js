@@ -15,6 +15,10 @@ const thisSchema = new Schema(
       type: String,
       //default: "Active",
     },
+    status: {
+      type: String,
+      default: "Active",
+    }
   },
   { timestamps: true }
 );
