@@ -57,7 +57,7 @@ exports.getoneOrder = async (req, res) => {
 
 exports.myOrders = async (req, res) => {
   await Order.find({ $and: [{ status: "COMPLETED" }, { userid: req.params.id }], }).populate({
-    path: "product",
+    path: "products",
     populate: {
       path: "product",
     },
@@ -110,7 +110,7 @@ exports.editOrder = async (req, res) => {
 
 exports.admin_product_Orderslist = async (req, res) => {
   await Order.find().populate({
-    path: "product",
+    path: "products",
     populate: {
       path: "product",
     },
@@ -130,13 +130,9 @@ exports.admin_product_Orderslist = async (req, res) => {
         // path:"astroid"
       },
     })
-    .populate({
-      path: "cartId",
-      populate: {
-        path: "productid",
-      },
 
-    })
+
+
     .populate("astroid")
 
 
