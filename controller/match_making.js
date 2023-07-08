@@ -497,7 +497,10 @@ exports.birth_details = async (req, res) => {
     tzone: 5.5,
     ayanamsha: req.body.ayanamsha,
     sunrise: req.body.sunrise,
-    sunset: req.body.sunset
+    sunset: req.body.sunset,
+    intakeId: req.body.intakeId,
+    userid: req.body.userid,
+    astroid: req.body.astroid
 
   };
   const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
@@ -515,7 +518,26 @@ exports.birth_details = async (req, res) => {
   });
 
   request.then(function (resp) {
-    const birthDetail = new BirthDetail(data);
+    const birthDetail = new BirthDetail({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+      ayanamsha: req.body.ayanamsha,
+      sunrise: req.body.sunrise,
+      sunset: req.body.sunset,
+      intakeId: req.body.intakeId,
+      userid: req.body.userid,
+      astroid: req.body.astroid,
+      ayanamsha:resp.ayanamsha,
+      sunrise: resp.sunrise,
+      sunset: resp.sunset
+    });
+
     birthDetail.save()
       .then(savedDetail => {
         res.status(200).json({
@@ -538,7 +560,7 @@ exports.birth_details = async (req, res) => {
   });
 }
 exports.getbirth_details = async (req, res) => {
-  await BirthDetail.find()
+  await BirthDetail.find().populate("intakeId")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

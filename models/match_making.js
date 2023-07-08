@@ -3,9 +3,15 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
   {
 
-    // userId :{
-    //   type: mongoose.Schema.Types.ObjectId, ref: "user"
-    // },
+    intakeId: {
+      type: mongoose.Schema.Types.ObjectId, ref: "intakeform"
+    },
+    userid:{
+      type: mongoose.Schema.Types.ObjectId, ref: "user"
+    },
+    astroid:{
+      type: mongoose.Schema.Types.ObjectId, ref: "astrologer"
+    },
     m_day: {
       type: Number,
     },
@@ -89,13 +95,13 @@ const thisSchema = new Schema(
       type: Number,
     },
     ayanamsha: {
-      type: Number,
+      type: String,
     },
     sunrise: {
-      type: Number,
+      type: String,
     },
     sunset: {
-      type: Number,
+      type: String,
     },
 
   },
