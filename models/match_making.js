@@ -79,10 +79,10 @@ const thisSchema = new Schema(
     lat: {
       type: Number,
     },
-    long: {
+    lon: {
       type: Number,
     },
-    timezone: {
+    tzone: {
       type: Number,
     },
     seconds: {
