@@ -498,7 +498,6 @@ exports.birth_details = async (req, res) => {
     ayanamsha: req.body.ayanamsha,
     sunrise: req.body.sunrise,
     sunset: req.body.sunset,
-    intakeId: req.body.intakeId,
     userid: req.body.userid,
     astroid: req.body.astroid
 
@@ -530,10 +529,9 @@ exports.birth_details = async (req, res) => {
       ayanamsha: req.body.ayanamsha,
       sunrise: req.body.sunrise,
       sunset: req.body.sunset,
-      intakeId: req.body.intakeId,
       userid: req.body.userid,
       astroid: req.body.astroid,
-      ayanamsha:resp.ayanamsha,
+      ayanamsha: resp.ayanamsha,
       sunrise: resp.sunrise,
       sunset: resp.sunset
     });
@@ -560,7 +558,14 @@ exports.birth_details = async (req, res) => {
   });
 }
 exports.getbirth_details = async (req, res) => {
-  await BirthDetail.find().populate("intakeId")
+  await BirthDetail.find()
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.birth_detailsByAstroid = async (req, res) => {
+  await BirthDetail.find({ astroid: req.params.id })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

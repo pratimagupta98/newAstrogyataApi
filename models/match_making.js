@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
   {
 
-    intakeId: {
-      type: mongoose.Schema.Types.ObjectId, ref: "intakeform"
-    },
-    userid:{
+    // intakeId: {
+    //   type: mongoose.Schema.Types.ObjectId, ref: "intakeform"
+    // },
+    userid: {
       type: mongoose.Schema.Types.ObjectId, ref: "user"
     },
-    astroid:{
+    astroid: {
       type: mongoose.Schema.Types.ObjectId, ref: "astrologer"
     },
     m_day: {
