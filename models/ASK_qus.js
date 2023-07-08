@@ -30,6 +30,14 @@ const thisSchema = new Schema(
     view_button: {
       type: String,
       default: "true"
+    },
+    remaining_qus: {
+      type: Number,
+
+    },
+    totalQus: {
+      type: Number,
+      default: 0
     }
 
   },

@@ -134,7 +134,7 @@ exports.make_call = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: "Your number is not whitelisted!",
+      error: err,
     });
   }
 };
@@ -218,7 +218,7 @@ const checkCallStatus = async () => {
             user.amount - parseInt(duration * astrologer.callCharge);
           console.log("totalDeductedAmount", totalDeductedAmount)
           const getcom = await AdminComision.findOne({
-            _id: "64967ef62cf27fc5dd12416d"
+            _id: "64a96b8deb11484339fb7d68"
           })
           console.log("getcom", getcom.admincomision)
           const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))

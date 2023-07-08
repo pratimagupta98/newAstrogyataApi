@@ -199,7 +199,7 @@ exports.updateComision = async (req, res) => {
 
 
 exports.viewoneCommision = async (req, res) => {
-  await AdminComision.findOne({ _id: "64967ef62cf27fc5dd12416d" })
+  await AdminComision.findOne({ _id: "64a96b8deb11484339fb7d68" })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 }

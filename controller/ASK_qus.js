@@ -4,8 +4,9 @@ const Product = require("../models/product");
 const Order = require("../models/order");
 const Astroproduct = require("../models/astroproduct");
 
+
 exports.user_ask_qus = async (req, res) => {
-  const { astroid, userid, question, answer } = req.body;
+  const { astroid, userid, question, answer, bundleOffer } = req.body;
 
   const getdata = await Order.find({
     $and: [
@@ -16,7 +17,7 @@ exports.user_ask_qus = async (req, res) => {
   })
 
     .populate({
-      path: "products",
+      path: "product",
       populate: {
         path: "product",
       },
@@ -25,12 +26,18 @@ exports.user_ask_qus = async (req, res) => {
   console.log("getdatassss", getdata);
   let totalQsCount = 0;
   for (const order of getdata) {
-    totalQsCount += order.products.qsCount;
+    totalQsCount += order.product.qsCount;
   }
-   console.log("totalQsCount", totalQsCount)
   const questions = await Askqustion.find({ userid: userid });
-
-
+  console.log("totalQsCount", totalQsCount - questions.length)
+  let remainqus = totalQsCount - questions.length
+  const getete = await Askqustion.findOneAndUpdate(
+    { astroid: astroid, userid: userid },
+    { $set: { remaining_qus: totalQsCount - questions.length } },
+    { new: true }
+  );
+  console.log("getete", getete)
+  console.log("remainqus", remainqus)
   if (questions.length > totalQsCount - 1) {
     console.log("your question limit is over");
     res.status(403).json({
@@ -39,9 +46,10 @@ exports.user_ask_qus = async (req, res) => {
     });
 
     const lastQuestion = questions[questions.length - 1];
+
     await Askqustion.findOneAndUpdate(
       { _id: lastQuestion._id },
-      { $set: { view_button: false } },
+      { $set: { view_button: false, remaining_qus: remainqus } },
       { new: true }
     );
   } else {
@@ -50,7 +58,9 @@ exports.user_ask_qus = async (req, res) => {
       userid: userid,
       question: question,
       answer: answer,
-      
+      bundleOffer: bundleOffer,
+      remaining_qus: remainqus-1,
+      totalQus: totalQsCount
     });
 
     newAskqustion
@@ -62,7 +72,12 @@ exports.user_ask_qus = async (req, res) => {
 
 
 exports.user_ask_qus_list = async (req, res) => {
-  await Askqustion.find({ userid: req.params.id })
+  await Askqustion.find({ userid: req.params.id }).populate({
+    path: "bundleOffer",
+    populate: {
+      path: "product",
+    },
+  })
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
