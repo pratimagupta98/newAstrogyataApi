@@ -50,7 +50,7 @@ exports.make_call = async (req, res) => {
       (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
       ""
     );
-  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/connect.json`;
+  const url = `https://${process.env.key}:${process.env.token}@api.exotel.in/v1/Accounts/${process.env.sid}/Calls/connect.json`;
 
   try {
     const response = await axios.post(
@@ -61,7 +61,7 @@ exports.make_call = async (req, res) => {
         userid: req.body.userid,
         astroid: req.body.astroid.trim(), // Remove extra whitespace using trim()
         walletId: req.body.walletId,
-        CallerId: "080-473-59942",
+        CallerId: "011-411-68588",
         CallerType: "promo",
         TimeLimit: parseInt(user.amount / astrologer.callCharge) * 60,
       }),

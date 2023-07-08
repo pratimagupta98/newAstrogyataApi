@@ -36,9 +36,6 @@ const {
 } = require("../controller/match_making");
 
 
-
-
-
 router.post("/user/match_making_report", match_making_report);
 router.post("/user/dailyHoroscope", dailyHoroscope);
 router.post("/user/weeklyHoroscope", weeklyHoroscope);
@@ -68,9 +65,6 @@ router.post("/user/lalkitab_remedies/:planet_name", lalkitab_remedies);
 router.post("/user/basic_gem_suggestion", basic_gem_suggestion);
 router.post("/user/panchang_festival", panchang_festival);
 router.post("/user/pdf_report", pdf_report);
-
-
-
 
 
 
