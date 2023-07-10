@@ -702,7 +702,7 @@ exports.status_change = async (req, res) => {
     {
       _id: req.params.id,
     },
-    { $set: { status: req.body.status, callingStatus: req.body.callingStatus } },
+    { $set: { status: req.body.status, callingStatus: req.body.callingStatus, waiting_tym: 0 } },
     { new: true }
   )
     .then((data) => resp.successr(res, data))
