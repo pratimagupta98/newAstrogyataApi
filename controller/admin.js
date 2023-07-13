@@ -77,7 +77,7 @@ exports.adminlogin = async (req, res) => {
         },
         key,
         {
-          expiresIn: 365,
+          expiresIn: "365d",
         }
       );
       res.header("ad-token", token).status(200).send({
