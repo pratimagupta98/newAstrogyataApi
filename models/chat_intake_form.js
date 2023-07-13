@@ -82,6 +82,9 @@ const thisSchema = new Schema(
     },
     file: {
       type: Array
+    },
+    type: {
+      type: String,
     }
   },
   { timestamps: true }
