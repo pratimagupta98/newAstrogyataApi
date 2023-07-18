@@ -33,7 +33,8 @@ const {
   panchang_festival,
   pdf_report,
   planetDasha,
-  yogini_dasha
+  yogini_dasha,
+  VimshottariDasha
 
 } = require("../controller/match_making");
 
@@ -69,6 +70,7 @@ router.post("/user/panchang_festival", panchang_festival);
 router.post("/user/pdf_report", pdf_report);
 router.post("/user/planetDasha", planetDasha);
 router.post("/user/yogini_dasha", yogini_dasha);
+router.post("/user/VimshottariDasha", VimshottariDasha);
 
 
 
