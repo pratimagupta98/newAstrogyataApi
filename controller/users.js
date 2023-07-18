@@ -152,7 +152,7 @@ exports.loginWithPassword = async (req, res) => {
         },
         key,
         {
-          expiresIn: 86400000,
+          expiresIn: "365d",
         }
       )
       res.header("auth-token", token).status(200).send({
