@@ -32,7 +32,8 @@ const {
   basic_gem_suggestion,
   panchang_festival,
   pdf_report,
-  planetDasha
+  planetDasha,
+  yogini_dasha
 
 } = require("../controller/match_making");
 
@@ -67,7 +68,7 @@ router.post("/user/basic_gem_suggestion", basic_gem_suggestion);
 router.post("/user/panchang_festival", panchang_festival);
 router.post("/user/pdf_report", pdf_report);
 router.post("/user/planetDasha", planetDasha);
-
+router.post("/user/yogini_dasha", yogini_dasha);
 
 
 
