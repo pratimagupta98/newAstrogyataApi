@@ -34,7 +34,8 @@ const {
   pdf_report,
   planetDasha,
   yogini_dasha,
-  VimshottariDasha
+  VimshottariDasha,
+  chardasha
 
 } = require("../controller/match_making");
 
@@ -71,6 +72,8 @@ router.post("/user/pdf_report", pdf_report);
 router.post("/user/planetDasha", planetDasha);
 router.post("/user/yogini_dasha", yogini_dasha);
 router.post("/user/VimshottariDasha", VimshottariDasha);
+router.post("/user/chardasha", chardasha);
+
 
 
 

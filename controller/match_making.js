@@ -1347,3 +1347,46 @@ exports.VimshottariDasha = async (req, res) => {
   }
 
 };
+
+exports.chardasha = async (req, res) => {
+  ;
+  var api = 'current_chardasha';
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year:  req.body.year,
+    hour:  req.body.hour,
+    min:  req.body.min,
+    lat:  req.body.lat,
+    lon:  req.body.lon,
+    tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
