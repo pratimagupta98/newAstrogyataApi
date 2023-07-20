@@ -1181,11 +1181,11 @@ exports.planetDasha = async (req, res) => {
   var data = {
     day: req.body.day,
     month: req.body.month,
-    year:  req.body.year,
-    hour:  req.body.hour,
-    min:  req.body.min,
-    lat:  req.body.lat,
-    lon:  req.body.lon,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
     tzone: 5.5,
 
   };
@@ -1226,11 +1226,11 @@ exports.planetDasha = async (req, res) => {
   var data = {
     day: req.body.day,
     month: req.body.month,
-    year:  req.body.year,
-    hour:  req.body.hour,
-    min:  req.body.min,
-    lat:  req.body.lat,
-    lon:  req.body.lon,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
     tzone: 5.5,
 
   };
@@ -1269,11 +1269,11 @@ exports.yogini_dasha = async (req, res) => {
   var data = {
     day: req.body.day,
     month: req.body.month,
-    year:  req.body.year,
-    hour:  req.body.hour,
-    min:  req.body.min,
-    lat:  req.body.lat,
-    lon:  req.body.lon,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
     tzone: 5.5,
 
   };
@@ -1312,11 +1312,11 @@ exports.VimshottariDasha = async (req, res) => {
   var data = {
     day: req.body.day,
     month: req.body.month,
-    year:  req.body.year,
-    hour:  req.body.hour,
-    min:  req.body.min,
-    lat:  req.body.lat,
-    lon:  req.body.lon,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
     tzone: 5.5,
 
   };
@@ -1355,11 +1355,11 @@ exports.chardasha = async (req, res) => {
   var data = {
     day: req.body.day,
     month: req.body.month,
-    year:  req.body.year,
-    hour:  req.body.hour,
-    min:  req.body.min,
-    lat:  req.body.lat,
-    lon:  req.body.lon,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
     tzone: 5.5,
 
   };
@@ -1396,6 +1396,92 @@ exports.ashtakvarga = async (req, res) => {
   var planetName = req.params.planet_name; // Assuming planet_name is passed as a parameter
 
   var api = 'planet_ashtak/' + planetName;
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+  };
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+
+exports.varshaphal_details = async (req, res) => {
+  ;
+  var api = 'varshaphal_planets';
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+
+
+exports.horo_chart = async (req, res) => {
+
+  var chart_id = req.params.chart_id; // Assuming planet_name is passed as a parameter
+
+  var api = 'horo_chart/' + chart_id;
 
   var data = {
     day: req.body.day,

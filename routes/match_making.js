@@ -36,7 +36,9 @@ const {
   yogini_dasha,
   VimshottariDasha,
   chardasha,
-  ashtakvarga
+  ashtakvarga,
+  varshaphal_details,
+  horo_chart
 
 } = require("../controller/match_making");
 
@@ -76,6 +78,8 @@ router.post("/user/VimshottariDasha", VimshottariDasha);
 router.post("/user/chardasha", chardasha);
 router.post("/user/ashtakvarga/:planet_name", ashtakvarga);
 
+router.post("/user/varshaphal_details", varshaphal_details);
+router.post("/user/horo_chart/:chart_id", horo_chart);
 
 
 
