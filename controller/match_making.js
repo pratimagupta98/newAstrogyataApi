@@ -1305,10 +1305,21 @@ exports.yogini_dasha = async (req, res) => {
 
 };
 
-exports.VimshottariDasha = async (req, res) => {
-  ;
-  var api = 'current_vdasha';
 
+
+exports.VimshottariDasha = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
+  var chart_id = req.params.chart_id; // Assuming planet_name is passed as a parameter
+
+  var api = 'current_vdasha';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   var data = {
     day: req.body.day,
     month: req.body.month,
@@ -1318,40 +1329,78 @@ exports.VimshottariDasha = async (req, res) => {
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
-
+    userid: req.body.userid,
+    astroid: req.body.astroid,
+    apiName: "VimshottariDasha"
   };
-
 
   var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
 
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
 
-  try {
-    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
-      method: "POST",
-      headers: {
-        "Authorization": auth,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+  request.then(function (resp) {
+    const newHoroChart = new HoroChart({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+      apiName: "VimshottariDasha",
+      userid: req.body.userid,
+      astroid: req.body.astroid
     });
-    const result = await response.json();
-    res.status(200).json({
-      status: true,
-      msg: "success",
-      data: result
-    });
-  } catch (error) {
+
+    newHoroChart.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp,
+          userid: req.body.userid,
+          astroid: req.body.astroid
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
+  }, function (err) {
     res.status(405).json({
-      error
+      err
     });
-  }
+  });
 
 };
+
 
 exports.chardasha = async (req, res) => {
-  ;
-  var api = 'current_chardasha';
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
 
+  var $ = jQuery = require('jquery')(window);
+  var chart_id = req.params.chart_id; // Assuming planet_name is passed as a parameter
+
+  var api = 'current_chardasha';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   var data = {
     day: req.body.day,
     month: req.body.month,
@@ -1361,42 +1410,78 @@ exports.chardasha = async (req, res) => {
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
-
+    userid: req.body.userid,
+    astroid: req.body.astroid,
+    apiName: "chardasha"
   };
-
 
   var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
 
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
 
-  try {
-    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
-      method: "POST",
-      headers: {
-        "Authorization": auth,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+  request.then(function (resp) {
+    const newHoroChart = new HoroChart({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+      apiName: "chardasha",
+      userid: req.body.userid,
+      astroid: req.body.astroid
     });
-    const result = await response.json();
-    res.status(200).json({
-      status: true,
-      msg: "success",
-      data: result
-    });
-  } catch (error) {
+
+    newHoroChart.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp,
+          userid: req.body.userid,
+          astroid: req.body.astroid
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
+  }, function (err) {
     res.status(405).json({
-      error
+      err
     });
-  }
+  });
 
 };
+
 
 exports.ashtakvarga = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
 
-  var planetName = req.params.planet_name; // Assuming planet_name is passed as a parameter
+  var $ = jQuery = require('jquery')(window);
+  var chart_id = req.params.chart_id; // Assuming planet_name is passed as a parameter
 
   var api = 'planet_ashtak/' + planetName;
-
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   var data = {
     day: req.body.day,
     month: req.body.month,
@@ -1406,32 +1491,64 @@ exports.ashtakvarga = async (req, res) => {
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
+    userid: req.body.userid,
+    astroid: req.body.astroid,
+    apiName: "ashtakvarga"
   };
 
   var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
 
-  try {
-    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
-      method: "POST",
-      headers: {
-        "Authorization": auth,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    const newHoroChart = new HoroChart({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+      apiName: "ashtakvarga",
+      userid: req.body.userid,
+      astroid: req.body.astroid
     });
-    const result = await response.json();
-    res.status(200).json({
-      status: true,
-      msg: "success",
-      data: result
-    });
-  } catch (error) {
+
+    newHoroChart.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp,
+          userid: req.body.userid,
+          astroid: req.body.astroid
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
+  }, function (err) {
     res.status(405).json({
-      error
+      err
     });
-  }
+  });
 
 };
+
 
 exports.varshaphal_details = async (req, res) => {
   ;
@@ -1538,8 +1655,8 @@ exports.horo_chart = async (req, res) => {
           status: true,
           msg: "success",
           data: resp,
-          userid:req.body.userid,
-          astroid:req.body.astroid
+          userid: req.body.userid,
+          astroid: req.body.astroid
         });
       })
       .catch(error => {
@@ -1577,3 +1694,9 @@ exports.horo_chart = async (req, res) => {
 
 };
 
+exports.horo_chart_list = async (req, res) => {
+  await HoroChart.find({"apiName":"horo_chart"})
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};

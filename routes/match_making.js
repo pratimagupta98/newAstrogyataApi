@@ -38,7 +38,8 @@ const {
   chardasha,
   ashtakvarga,
   varshaphal_details,
-  horo_chart
+  horo_chart,
+  horo_chart_list
 
 } = require("../controller/match_making");
 
@@ -80,6 +81,7 @@ router.post("/user/ashtakvarga/:planet_name", ashtakvarga);
 
 router.post("/user/varshaphal_details", varshaphal_details);
 router.post("/user/horo_chart/:chart_id", horo_chart);
+router.get("/user/horo_chart_list", horo_chart_list);
 
 
 
