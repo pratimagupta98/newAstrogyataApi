@@ -1739,7 +1739,7 @@ exports.yogini_dasha_list = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 exports.VimshottariDasha_list = async (req, res) => {
-  await HoroChart.find({ "apiName": "VimshottariDasha_list" })
+  await HoroChart.find({ "apiName": "VimshottariDasha" })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
