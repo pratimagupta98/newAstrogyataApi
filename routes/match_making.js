@@ -40,7 +40,10 @@ const {
   varshaphal_details,
   horo_chart,
   horo_chart_list,
-  ashtakvarga_list
+  ashtakvarga_list,
+  yogini_dasha_list,
+  planets_list,
+  VimshottariDasha_list
 
 } = require("../controller/match_making");
 
@@ -85,6 +88,9 @@ router.post("/user/horo_chart/:chart_id", horo_chart);
 router.get("/user/horo_chart_list", horo_chart_list);
 router.get("/user/ashtakvarga_list", ashtakvarga_list);
 
+router.get("/user/VimshottariDasha_list", VimshottariDasha_list);
+router.get("/user/planets_list", planets_list);
+router.get("/user/yogini_dasha_list", yogini_dasha_list);
 
 
 
