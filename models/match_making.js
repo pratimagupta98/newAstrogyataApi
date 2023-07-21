@@ -103,6 +103,9 @@ const thisSchema = new Schema(
     sunset: {
       type: String,
     },
+    apiName: {
+      type: String,
+    },
 
   },
 
