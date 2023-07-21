@@ -1477,7 +1477,7 @@ exports.ashtakvarga = async (req, res) => {
   global.document = document;
 
   var $ = jQuery = require('jquery')(window);
-  var chart_id = req.params.chart_id; // Assuming planet_name is passed as a parameter
+  var planetName = req.params.planetName; // Assuming planet_name is passed as a parameter
 
   var api = 'planet_ashtak/' + planetName;
   var userId = process.env.USERID;
@@ -1696,6 +1696,13 @@ exports.horo_chart = async (req, res) => {
 
 exports.horo_chart_list = async (req, res) => {
   await HoroChart.find({"apiName":"horo_chart"})
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.ashtakvarga_list = async (req, res) => {
+  await HoroChart.find({"apiName":"ashtakvarga"})
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

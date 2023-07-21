@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const thisSchema = new Schema(
@@ -12,8 +13,16 @@ const thisSchema = new Schema(
         status: {
             type: String
         },
-        duration: {
+        callStatus:{
             type: String
+        },
+        vc_status:{
+            type: Number,
+            default: 0
+        },
+        duration: {
+            type: Number,
+            default: 0
         },
         type: {
             type: String
@@ -37,6 +46,13 @@ const thisSchema = new Schema(
         userAmt: {
             type: Number,
             default: 0
+        },
+        totalDuration:{
+            type: Number,
+            default: 0
+        },
+        chatHistoryId:{
+            type:String
         }
 
     },
