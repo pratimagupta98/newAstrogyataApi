@@ -31,7 +31,7 @@ const thisSchema = new Schema(
 
     lastname: {
       type: String,
-      required: true
+      
     },
     p_lastname: {
       type: String,
