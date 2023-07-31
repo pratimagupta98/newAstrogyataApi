@@ -174,9 +174,7 @@ const checkCallStatus = async () => {
     const sid = "sveltosetechnologies2";
     const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
     // const Sid = req.params.sid;
-
     const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
-
     try {
       const response = await axios.get(url);
       const { status, data } = response;
@@ -228,8 +226,6 @@ const checkCallStatus = async () => {
           const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
           const adminCommission = ttlminute * getadmincommision
           console.log("getadmincommision", adminCommission)
-
-
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
@@ -238,7 +234,6 @@ const checkCallStatus = async () => {
             let admincom = await AdminComision.updateOne(
               { _id: "64967ef62cf27fc5dd12416d" },
               {
-
                 $push: { totalEarning: { amount: adminCommission } },
               }
             );
@@ -270,10 +265,8 @@ const checkCallStatus = async () => {
             { _id: callDetails.astroid },
             { callingStatus: "Available", waiting_tym: 0 }
           );
-
           console.log(updatestst);
           cron_job.stop();
-
         } else if (callStatus === "failed") {
           console.log("Call has been failed");
           // Handle rejected status logic
@@ -285,15 +278,11 @@ const checkCallStatus = async () => {
             { _id: callDetails.astroid },
             { callingStatus: "Available", waiting_tym: 0 }
           );
-
           console.log(updatestst);
           cron_job.stop();
-
         }
-
         else if (callStatus === "in-progress") {
           duration++;
-
           const amountDeduct =
             user.amount - parseInt(duration * astrologer.callCharge);
           console.log(
@@ -304,13 +293,11 @@ const checkCallStatus = async () => {
             "total call duration is ",
             duration
           );
-
           let response = await User.updateOne(
             { _id: callDetails.userId },
             { amount: amountDeduct }
           );
           console.log(response);
-
           console.log(
             "Call ongoing Balance left is ",
             amountDeduct,
@@ -326,11 +313,8 @@ const checkCallStatus = async () => {
             { _id: callDetails.astroid },
             { callingStatus: "Available", waiting_tym: 0 }
           );
-
-
           console.log(response);
           cron_job.stop();
-
           cron_job = null;
           console.log("Unknown call status:", callStatus);
         }
@@ -342,7 +326,6 @@ const checkCallStatus = async () => {
     }
   });
 };
-
 
 exports.on_make_another_call = async (req, res) => {
   const { userId, callType } = req.body;

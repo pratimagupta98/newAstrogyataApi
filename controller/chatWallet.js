@@ -9,153 +9,6 @@ const WalletT = require("../models/walletTransaction");
 
 
 
-// exports.addCallWallet = async (req, res) => {
-//   const { userid, astroid, recharge_planId, beforeAmt, deductedAmt, finalAmt } = req.body;
-
-
-//   const getoneastro = await Astrologer.findOne({ _id: req.body.astroid })
-//   //console.log("ASTRO",getoneastro)
-//   if (getoneastro) {
-//     const getcharge = getoneastro.callCharge
-//     // console.log("CALLCHARGE", getcharge)
-
-//     //  const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
-//     //  console.log("MIN PLAN",getplanchrge)
-//     //  if(getplanchrge){
-//     //  const getplan = getplanchrge.minute
-//     //  console.log("getplan",getplan)
-//     const minute = 5
-
-
-//     const getuserdetail = await User.findOne({ _id: req.body.userid })
-//     //console.log("GETUSER",getuserdetail)
-//     if (getuserdetail) {
-//       let totalamt = getcharge * minute
-//       //  console.log("TOTAL AMT WAS DEDUCTED", totalamt)
-//       const getwalletamt = getuserdetail.amount
-//       //  console.log("WALLET AMT", getwalletamt)
-//       let newamt = 0
-//       if (getwalletamt > totalamt) {
-//         console.log("success")
-
-//         // newamt =getwalletamt - totalamt
-//         // console.log("camt",getwalletamt)
-//         // console.log("new",newamt)
-
-//         // const newChatWallet = new ChatWallet({
-//         //   userid:userid,
-//         //   astroid:astroid,
-//         //   recharge_planId:recharge_planId,
-//         //   type:"Voice Call",
-//         //   tran_Type:"Debited",
-//         //   conversationId:"#"+ Date.now(),
-//         //   beforeAmt:getwalletamt,
-//         //             deductedAmt:totalamt,
-//         //             finalAmt:newamt
-
-//         // })
-//         // const newWalletT = new WalletT({
-//         // userid:userid,
-//         //   astroid:astroid,
-//         //   recharge_planId:recharge_planId,
-//         //   type:"Voice Call",
-//         //   tran_Type:"Debited",
-//         //   conversationId:"#"+ Date.now(),
-//         //   beforeAmt:getwalletamt,
-//         //             deductedAmt:totalamt,
-//         //             finalAmt:newamt
-//         // })
-//         // newChatWallet.save()
-//         //         .then(async(data) => {
-//         //           const createnewtable = await WalletT.create(newWalletT);
-//         //           console.log("MMMMMM",createnewtable)
-//         //           res.status(200).json({
-//         //             status: true,
-//         //             msg: "success",
-//         //             data: data,
-//         //             beforeAmt:getwalletamt,
-//         //             deductedAmt:totalamt,
-//         //             finalAmt:newamt
-
-//         //             // callCharge:getoneastro.callCharge,
-//         //             // minute:
-//         //           });
-//         //         }) 
-//         //         .catch((error) => {
-//         //           res.status(400).json({
-//         //             status: false,
-//         //             msg: "error",
-//         //             error: error,
-//         //           });
-//         //         });
-//         //         const finduserAndupdate = await User.findOneAndUpdate(
-
-//         //             { _id: req.body.userid },
-
-//         //             { $set: {amount:newamt,deductedAmt:totalamt } },
-
-//         //           //     { amount: currntamt },
-
-//         //           // { $set: {status:"success"} },
-//         //           { new: true },
-//         //           )
-//         //           if(finduserAndupdate){
-//         // console.log("UPDATE USER AMOUNT",finduserAndupdate)
-
-//         //           }
-//         // const tableUpdate = await ChatWallet.findOneAndUpdate(
-
-//         //   { userid: req.body.userid },
-
-//         //   { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
-//         // { new: true },
-//         // )
-//         // if(tableUpdate){
-//         //   console.log("UPDATE",tableUpdate)
-
-//         //             }
-
-//         //             const updateSuccess = await WalletT.findOneAndUpdate(
-
-//         //               { userid: req.body.userid },
-
-//         //               { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
-//         //             { new: true },
-//         //             )
-//         //             if(updateSuccess){
-//         //               console.log("UPDATE",updateSuccess)
-
-//         //                         }
-//         res.status(200).json({
-//           status: true,
-//           msg: "success",
-//           type: "Voice Call"
-//         })
-
-//       } else {
-//         console.log("INSUFFICIENT BALANCE")
-//         res.status(201).json({
-//           status: false,
-//           msg: "Insufficient belence"
-//         })
-//       }
-
-//     } else {
-//       // console.log("ERROR")
-//       res.status(400).json({
-//         status: false,
-//         msg: "Something Went Wrong"
-//       })
-//     }
-//   } else {
-//     // console.log("error")
-//     res.status(400).json({
-//       status: false,
-//       msg: "Something Went Wrong"
-//     })
-//   }
-
-// }
 exports.addCallWallet = async (req, res) => {
   const { userid, astroid, recharge_planId, beforeAmt, deductedAmt, finalAmt } = req.body;
 
@@ -188,19 +41,19 @@ exports.addCallWallet = async (req, res) => {
           userid: req.body.userid,
           astroid: req.body.astroid,
 
-          type: "Chat"
+          type: req.body.type
         };
 
         const chatWallet = new ChatWallet(chatWalletData);
         await chatWallet.save();
-        
-       
-     
-                               
+
+
+
         res.status(200).json({
           status: true,
           msg: "success",
-          type: "Chat"
+          _id:chatWallet.id
+          //     type: "Chat"
         })
 
       } else {
@@ -227,6 +80,155 @@ exports.addCallWallet = async (req, res) => {
   }
 
 }
+
+
+// exports.addCallWallet = async (req, res) => {
+//     const {userid,astroid,recharge_planId,beforeAmt,deductedAmt,finalAmt} = req.body;
+
+
+// const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
+// //console.log("ASTRO",getoneastro)
+// if(getoneastro){
+// const getcharge = getoneastro.callCharge
+// console.log("CALLCHARGE",getcharge)
+
+// //  const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
+// //  console.log("MIN PLAN",getplanchrge)
+// //  if(getplanchrge){
+// //  const getplan = getplanchrge.minute
+// //  console.log("getplan",getplan)
+// const minute = 5
+
+
+//  const getuserdetail = await User.findOne({_id:req.body.userid})
+//  //console.log("GETUSER",getuserdetail)
+//  if(getuserdetail){
+//     let totalamt = getcharge*minute
+//     console.log("TOTAL AMT WAS DEDUCTED",totalamt)
+//  const getwalletamt = getuserdetail.amount
+//  console.log("WALLET AMT",getwalletamt)
+//  let  newamt=0
+//  if (getwalletamt>totalamt){
+// console.log("success")
+
+// // newamt =getwalletamt - totalamt
+// // console.log("camt",getwalletamt)
+// // console.log("new",newamt)
+
+// // const newChatWallet = new ChatWallet({
+// //   userid:userid,
+// //   astroid:astroid,
+// //   recharge_planId:recharge_planId,
+// //   type:"Voice Call",
+// //   tran_Type:"Debited",
+// //   conversationId:"#"+ Date.now(),
+// //   beforeAmt:getwalletamt,
+// //             deductedAmt:totalamt,
+// //             finalAmt:newamt
+
+// // })
+// // const newWalletT = new WalletT({
+// // userid:userid,
+// //   astroid:astroid,
+// //   recharge_planId:recharge_planId,
+// //   type:"Voice Call",
+// //   tran_Type:"Debited",
+// //   conversationId:"#"+ Date.now(),
+// //   beforeAmt:getwalletamt,
+// //             deductedAmt:totalamt,
+// //             finalAmt:newamt
+// // })
+// // newChatWallet.save()
+// //         .then(async(data) => {
+// //           const createnewtable = await WalletT.create(newWalletT);
+// //           console.log("MMMMMM",createnewtable)
+// //           res.status(200).json({
+// //             status: true,
+// //             msg: "success",
+// //             data: data,
+// //             beforeAmt:getwalletamt,
+// //             deductedAmt:totalamt,
+// //             finalAmt:newamt
+
+// //             // callCharge:getoneastro.callCharge,
+// //             // minute:
+// //           });
+// //         }) 
+// //         .catch((error) => {
+// //           res.status(400).json({
+// //             status: false,
+// //             msg: "error",
+// //             error: error,
+// //           });
+// //         });
+// //         const finduserAndupdate = await User.findOneAndUpdate(
+
+// //             { _id: req.body.userid },
+
+// //             { $set: {amount:newamt,deductedAmt:totalamt } },
+
+// //           //     { amount: currntamt },
+
+// //           // { $set: {status:"success"} },
+// //           { new: true },
+// //           )
+// //           if(finduserAndupdate){
+// // console.log("UPDATE USER AMOUNT",finduserAndupdate)
+
+// //           }
+//           // const tableUpdate = await ChatWallet.findOneAndUpdate(
+
+//           //   { userid: req.body.userid },
+
+//           //   { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
+//           // { new: true },
+//           // )
+//           // if(tableUpdate){
+//           //   console.log("UPDATE",tableUpdate)
+
+//           //             }
+
+//           //             const updateSuccess = await WalletT.findOneAndUpdate(
+
+//           //               { userid: req.body.userid },
+
+//           //               { $set: {beforeAmt:getwalletamt,deductedAmt:totalamt, finalAmt:newamt} },
+//           //             { new: true },
+//           //             )
+//           //             if(updateSuccess){
+//           //               console.log("UPDATE",updateSuccess)
+
+//           //                         }
+//           res.status(200).json({
+//             status:true,
+//             msg :"success",
+//             type:"Voice Call"
+//           })
+
+//  }else{
+//     console.log("INSUFFICIENT BALANCE")
+//     res.status(201).json({
+//         status:false,
+//         msg:"Insufficient belence"
+//     })
+//  }
+
+//  }else{
+//     console.log("ERROR")
+//     res.status(400).json({
+//         status:false,
+//         msg :"Something Went Wrong"
+//     })
+//  }
+//  }else{
+// console.log("error")
+// res.status(400).json({
+//     status:false,
+//     msg :"Something Went Wrong"
+// })
+//  }
+
+// }
 
 
 exports.addVideoCallWallet = async (req, res) => {
@@ -380,6 +382,7 @@ exports.ChatWaiting = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 }
 
+
 exports.cartbycustomer = async (req, res) => {
   //await Cart.remove()
   const findone = await Cart.find({ userid: req.userId })
@@ -424,7 +427,6 @@ exports.cartbycustomer = async (req, res) => {
     }
   }
 }
-
 exports.getOne_Conversation_Wallet = async (req, res) => {
   await ChatWallet.find({ userid: req.params.id }).populate("userid").populate("astroid").populate("recharge_planId")
     .sort({ createdAt: -1 })
@@ -433,8 +435,8 @@ exports.getOne_Conversation_Wallet = async (req, res) => {
 };
 
 
-exports.dltMany = async (req, res) => {
-  await Cart.deleteMany()
+exports.dltNotificattion = async (req, res) => {
+  await ChatWallet.deleteOne()
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -461,7 +463,17 @@ exports.pending_order = async (req, res, next) => {
     });
 };
 
-
+exports.acceptNotificationByAstro = async (req, res) => {
+  const getdata = await ChatWallet.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { $set: { status: req.body.status } },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+}
 exports.acceptChat = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {
@@ -656,6 +668,7 @@ exports.acceptChat = async (req, res) => {
   // .then((data) => resp.successr(res, data))
   // .catch((error) => resp.errorr(res, error));
 }
+
 exports.acceptVoiceCall = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {
@@ -768,6 +781,7 @@ exports.acceptVoiceCall = async (req, res) => {
   // .then((data) => resp.successr(res, data))
   // .catch((error) => resp.errorr(res, error));
 }
+
 exports.acceptVideoChat = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {
@@ -882,25 +896,61 @@ exports.acceptVideoChat = async (req, res) => {
 }
 
 
+
+
 exports.wait_queue_list = async (req, res) => {
-  // Get the current date
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+  today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for the next day
 
   await ChatWallet.find({
     $and: [
       { astroid: req.params.id },
       { status: "Requested" },
-      { createdAt: { $gte: today } } // Filter by createdAt field >= today
+      { createdAt: { $gte: today, $lt: tomorrow } } // Filter for today's data
     ]
   })
     .populate("astroid")
     .populate("userid")
     .populate("recharge_planId")
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+exports.VideoNotification= async (req, res) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for the next day
+
+  await ChatWallet.find({
+    $and: [
+      { astroid: req.params.id },
+      { status: "Requested" },{type:"Video"},
+      { createdAt: { $gte: today, $lt: tomorrow } } // Filter for today's data
+    ]
+  })
+   // .populate("astroid")
+    .populate("userid")
+    .populate("recharge_planId")
+    .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.dlt_wait_queue = async (req, res) => {
+  await ChatWallet.deleteOne({ _id: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 
 exports.accepted_notification = async (req, res) => {
   await ChatWallet.find({ $and: [{ userid: req.params.id }, { status: "Accepted" }] }).populate("astroid").populate("userid").populate("recharge_planId")
@@ -1035,3 +1085,14 @@ exports.addChatWallet = async (req, res) => {
 }
 
 
+exports.getOnenotificationByastro = async (req, res) => {
+  await ChatWallet.findOne({ _id: req.params.id }).populate("userid")
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.dltallAllChat = async (req, res) => {
+  await ChatWallet.deleteMany()
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
