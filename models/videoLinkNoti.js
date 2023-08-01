@@ -17,6 +17,9 @@ const thisSchema = new Schema(
             type:String,
             default:"Requested"
             //Requested,Accepted,Rejected,Completed
+          },
+          type:{
+            type: String,
           }
 
     },
