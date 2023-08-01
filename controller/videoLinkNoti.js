@@ -9,7 +9,7 @@ exports.send_VideoLink = async (req, res) => {
         astroid: astroid,
         videoLink: videoLink,
         userid: userid,
-        type: type
+        type: "Video"
 
     });
 
