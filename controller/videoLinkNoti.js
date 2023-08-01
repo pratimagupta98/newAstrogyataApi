@@ -3,13 +3,13 @@ const resp = require("../helpers/apiResponse");
 const Astrologer = require("../models/astrologer");
 
 exports.send_VideoLink = async (req, res) => {
-    const { astroid, videoLink, userid,type } = req.body;
+    const { astroid, videoLink, userid, type } = req.body;
 
     const newVideoLinkNoti = new VideoLinkNoti({
         astroid: astroid,
         videoLink: videoLink,
         userid: userid,
-        type:type
+        type: type
 
     });
 
@@ -32,28 +32,28 @@ exports.VdolinkList = async (req, res) => {
     await VideoLinkNoti.find({
         $and: [
             { astroid: req.params.id },
-            { status: "Requested" },{type:"Video"},
+            { status: "Requested" }, { type: "Video" },
             { createdAt: { $gte: today } } // Filter by createdAt field >= today
         ]
     })
 
-   
-        .populate("astroid")
+
+        .populate("astroid").populate("userid")
         .sort({ sortorder: 1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
 exports.acceptVideoNotificationByAstro = async (req, res) => {
     const getdata = await VideoLinkNoti.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      { $set: { status: req.body.status } },
-      { new: true }
+        {
+            _id: req.params.id,
+        },
+        { $set: { status: req.body.status } },
+        { new: true }
     )
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
-  }
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+}
 exports.getoneChannl = async (req, res) => {
     await videoChannel.findOne({ _id: req.params.id }).populate("astroid")
         .then((data) => resp.successr(res, data))
