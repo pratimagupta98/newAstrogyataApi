@@ -13,7 +13,11 @@ const thisSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'user'
         },
-
+        status:{
+            type:String,
+            default:"Requested"
+            //Requested,Accepted,Rejected,Completed
+          }
 
     },
 
