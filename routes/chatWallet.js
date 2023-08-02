@@ -15,7 +15,8 @@ const {
     acceptNotificationByAstro,
     getOnenotificationByastro,
     VideoNotification,
-    dltallAllChat
+    dltallAllChat,
+    appVideoCalling
     //   addCallWallet_new
 
 } = require("../controller/chatWallet");
@@ -40,6 +41,7 @@ router.get("/user/getOnenotificationByastro/:id", getOnenotificationByastro);
 
 router.get("/user/VideoNotification/:id", VideoNotification);
 router.get("/user/dltallAllChat", dltallAllChat);
+router.post("/user/appVideoCalling", appVideoCalling);
 
 
 

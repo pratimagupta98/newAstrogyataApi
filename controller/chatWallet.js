@@ -52,7 +52,7 @@ exports.addCallWallet = async (req, res) => {
         res.status(200).json({
           status: true,
           msg: "success",
-          _id:chatWallet.id
+          _id: chatWallet.id
           //     type: "Chat"
         })
 
@@ -921,7 +921,44 @@ exports.wait_queue_list = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-exports.VideoNotification= async (req, res) => {
+
+
+exports.appVideoCalling = async (req, res) => {
+  let requsetedId = req.body.id
+  const getdata = await ChatWallet.findOneAndUpdate(
+    {
+      _id: req.body.requsetedId,
+    },
+    { $set: { channelName: req.body.channelName, token: req.body.token } },
+    { new: true }
+  )
+  .then((data) => {
+    // Custom success response format
+    const response = {
+      status: 'true',
+      message: 'success',
+      requsetedId:req.body.requsetedId,
+      channelName:req.body.channelName,
+      token:req.body.token
+       // Assuming you want to send the updated data in the response
+    };
+    res.status(200).json(response);
+  })
+  .catch((error) => {
+    // Custom error response format
+    const response = {
+      status: 'false',
+      message: 'error',
+      error: error.message, // Assuming you want to send the error message in the response
+    };
+    res.status(500).json(response);
+  });
+};
+
+    // .then((data) => resp.successr(res, data))
+    // .catch((error) => resp.errorr(res, error));
+
+exports.VideoNotification = async (req, res) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
 
@@ -932,18 +969,17 @@ exports.VideoNotification= async (req, res) => {
   await ChatWallet.find({
     $and: [
       { astroid: req.params.id },
-      { status: "Requested" },{type:"Video"},
+      { status: "Requested" }, { type: "Video" },
       { createdAt: { $gte: today, $lt: tomorrow } } // Filter for today's data
     ]
   })
-   // .populate("astroid")
+    // .populate("astroid")
     .populate("userid")
     .populate("recharge_planId")
     .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 
 exports.dlt_wait_queue = async (req, res) => {
   await ChatWallet.deleteOne({ _id: req.params.id })

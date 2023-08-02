@@ -34,6 +34,12 @@ const thisSchema = new Schema(
     type:String,
     default:"Requested"
     //Requested,Accepted,Rejected,Completed
+  },
+  token:{
+    type:String
+  },
+  channelName:{
+    type:String
   }
 
   },
