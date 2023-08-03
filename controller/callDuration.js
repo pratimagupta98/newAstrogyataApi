@@ -205,6 +205,9 @@ exports.deductBalance = async (req, res) => {
       const useramt =
         user.amount - parseInt(duration * astro.callCharge);
       console.log("useramt", useramt)
+      const firsttymuseramt =
+      user.amount - parseInt(1 * astro.callCharge);
+  
       console.log("totalDeductedAmount", totalDeductedAmount)
       const getcom = await AdminComision.findOne({
         _id: "64a96b8deb11484339fb7d68"
@@ -229,7 +232,7 @@ exports.deductBalance = async (req, res) => {
         userId: userId,
         astroId: astroId,
         type: type,
-        userAmt: updatedUser.amount, // Use the deductedBalance after deduction
+        userAmt:firsttymuseramt, // Use the deductedBalance after deduction
         userdeductedAmt: astrocharge,
         totalDuration: totalDuration,// Use the global totalDuration
         adminCredited: getadmincommision

@@ -30,7 +30,7 @@ router.post("/user/userVideoCall", userVideoCall);
 router.post("/user/Calling", Calling);
 router.get("/user/astroCallHistory/:id", astroCallHistory);
 router.get("/user/userCallHistory/:id", userCallHistory);
-router.get("/user/make_another_call/:id", on_make_another_call);
+router.post("/user/make_another_call/:id", on_make_another_call);
 router.get("/user/astroCompleteCall/:id", astroCompleteCall);
 router.get("/user/dlCallHistory/:id", dlCallHistory);
 router.get("/admin/adminCallHistory", adminCallHistory);
