@@ -13,10 +13,10 @@ const thisSchema = new Schema(
         status: {
             type: String
         },
-        callStatus:{
+        callStatus: {
             type: String
         },
-        vc_status:{
+        vc_status: {
             type: Number,
             default: 0
         },
@@ -47,12 +47,12 @@ const thisSchema = new Schema(
             type: Number,
             default: 0
         },
-        totalDuration:{
+        totalDuration: {
             type: Number,
             default: 0
         },
-        chatHistoryId:{
-            type:String
+        chatHistoryId: {
+            type: String
         }
 
     },
