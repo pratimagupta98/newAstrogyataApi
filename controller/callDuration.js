@@ -207,7 +207,7 @@ exports.deductBalance = async (req, res) => {
         user.amount - parseInt(1 * astro.callCharge);
 
       const getcom = await AdminComision.findOne({
-        _id: "64967ef62cf27fc5dd12416d"
+        _id: "64a96b8deb11484339fb7d68"
       })
       console.log("getcom", getcom.admincomision)
       const getadmincommision = parseFloat((astro.callCharge - astro.callCharge * 100 / (100 + parseInt(getcom.admincomision))).toFixed(2));
