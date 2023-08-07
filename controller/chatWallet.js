@@ -14,10 +14,10 @@ exports.addCallWallet = async (req, res) => {
 
 
   const getoneastro = await Astrologer.findOne({ _id: req.body.astroid })
-  //console.log("ASTRO",getoneastro)
+  console.log("ASTRO", getoneastro)
   if (getoneastro) {
     const getcharge = getoneastro.callCharge
-    // console.log("CALLCHARGE", getcharge)
+    console.log("CALLCHARGE", getcharge)
 
     //  const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
     //  console.log("MIN PLAN",getplanchrge)
@@ -436,32 +436,12 @@ exports.getOne_Conversation_Wallet = async (req, res) => {
 
 
 exports.dltNotificattion = async (req, res) => {
-  await ChatWallet.deleteOne()
+  await ChatWallet.deleteOne({_id:req.params.id})
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
-exports.pending_order = async (req, res, next) => {
-  const finddetails = await Ordertable.find({
-    $and: [{ seller: req.sellerId }, { status: "Pending" }],
-  })
-    .populate("customer")
-    .populate("product")
-    .then((result) => {
-      res.status(200).json({
-        status: true,
-        msg: "success",
-        data: result,
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        status: false,
-        msg: "error",
-        error: error,
-      });
-    });
-};
+
 
 exports.acceptNotificationByAstro = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
@@ -932,31 +912,31 @@ exports.appVideoCalling = async (req, res) => {
     { $set: { channelName: req.body.channelName, token: req.body.token } },
     { new: true }
   )
-  .then((data) => {
-    // Custom success response format
-    const response = {
-      status: 'true',
-      message: 'success',
-      requsetedId:req.body.requsetedId,
-      channelName:req.body.channelName,
-      token:req.body.token
-       // Assuming you want to send the updated data in the response
-    };
-    res.status(200).json(response);
-  })
-  .catch((error) => {
-    // Custom error response format
-    const response = {
-      status: 'false',
-      message: 'error',
-      error: error.message, // Assuming you want to send the error message in the response
-    };
-    res.status(500).json(response);
-  });
+    .then((data) => {
+      // Custom success response format
+      const response = {
+        status: 'true',
+        message: 'success',
+        requsetedId: req.body.requsetedId,
+        channelName: req.body.channelName,
+        token: req.body.token
+        // Assuming you want to send the updated data in the response
+      };
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      // Custom error response format
+      const response = {
+        status: 'false',
+        message: 'error',
+        error: error.message, // Assuming you want to send the error message in the response
+      };
+      res.status(500).json(response);
+    });
 };
 
-    // .then((data) => resp.successr(res, data))
-    // .catch((error) => resp.errorr(res, error));
+// .then((data) => resp.successr(res, data))
+// .catch((error) => resp.errorr(res, error));
 
 exports.VideoNotification = async (req, res) => {
   const today = new Date();
