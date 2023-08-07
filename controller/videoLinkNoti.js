@@ -74,8 +74,8 @@ exports.updateRashi = async (req, res) => {
 };
 
 
-exports.dltVideoChannl = async (req, res) => {
-    await videoChannel.deleteOne({ _id: req.params.id })
+exports.dltVideoNotification = async (req, res) => {
+    await VideoLinkNoti.deleteOne({ _id: req.params.id })
         .then((data) => resp.deleter(res, data))
         .catch((error) => resp.errorr(res, error));
 };
