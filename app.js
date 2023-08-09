@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 //const cors = require("cors");
-
+mongoose.set('strictQuery', false)
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -70,6 +70,7 @@ const videoLinkNoti = require("./routes/videoLinkNoti")
 const astroFollowers = require("./routes/astroFollowers")
 const webAstroliveStream = require("./routes/webAstroliveStream")
 
+const payment = require("./routes/payment")
 
 
 
@@ -134,6 +135,7 @@ app.use("/", astroFollowers);
 
 app.use("/", webAstroliveStream
 );
+app.use("/", payment);
 
 
 

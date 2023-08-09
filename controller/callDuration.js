@@ -297,12 +297,6 @@ exports.changeToAvailable = async (req, res) => {
 
 
 
-
-
-
-
-
-
 exports.stop_cron = async (req, res) => {
   try {
     const lastDocument = await ChatHistory.findOne()
@@ -403,5 +397,12 @@ exports.adminVedioChathistory = async (req, res) => {
 exports.dltallChat = async (req, res) => {
   await callDuration.deleteMany()
     .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.userVideohistory = async (req, res) => {
+  await ChatHistory.find({ $and:[{userId:req.params.id},{type:"Video"}]})
+    .sort({ createdAt: -1 }).populate("userId").populate("astroId")
+    .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

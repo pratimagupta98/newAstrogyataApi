@@ -9,7 +9,9 @@ const {
   astroChathistory,
   dltallChat,
   adminVedioChathistory,
-  stop_cron
+  stop_cron,
+  userVideohistory,
+  
 } = require("../controller/callDuration");
 
 router.post("/user/addCallDuration", addCallDuration);
@@ -20,5 +22,6 @@ router.get("/user/astroChathistory/:id", astroChathistory);
 router.get("/admin/dltallChat", dltallChat);
 router.get("/admin/adminVedioChathistory", adminVedioChathistory);
 router.get("/admin/stop_cron", stop_cron);
+router.get("/user/userVideohistory/:id", userVideohistory);
 
 module.exports = router;
