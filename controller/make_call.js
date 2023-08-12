@@ -123,7 +123,10 @@ exports.make_call = async (req, res) => {
           astrologer.callCharge
         );
         res.status(200).json({ order: options });
-        checkCallStatus();
+        setTimeout(() => {
+          checkCallStatus();
+      },40000)
+        //checkCallStatus();
       }
     });
   } catch (err) {
