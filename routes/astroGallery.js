@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const {
-  upload_astrogallery, get_astroGallery, delGalleryvideo
+  upload_astrogallery, get_astroGallery, delGalleryvideo, edit_astrogallery
 } = require("../controller/astroGallery");
 
 //PATHS
@@ -54,6 +54,7 @@ router.post(
 // );
 router.get("/admin/get_astroGallery/:id", get_astroGallery);
 router.get("/user/delGalleryvideo/:id", delGalleryvideo);
+router.post("/user/edit_astrogallery/:id",upload.single("file"), edit_astrogallery);
 
 
 module.exports = router;

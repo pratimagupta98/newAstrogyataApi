@@ -196,3 +196,81 @@ exports.viewonevideo = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
+exports.edit_astrogallery = async(req,res)=>{
+  const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];
+  data ={}
+ try{
+  if (req.files) {
+      if (req.files.file) {
+        alluploads = [];
+        for (let i = 0; i < req.files.file.length; i++) {
+          // console.log(i);
+          const resp = await cloudinary.uploader.upload(req.files.file[i].path, {
+            use_filename: true,
+            unique_filename: false,
+          });
+          fs.unlinkSync(req.files.file[i].path);
+          alluploads.push(resp.secure_url);
+        }
+        // newStore.storeImg = alluploads;
+        data.file = alluploads;
+      }
+   }
+   await astroGallery.findOneAndUpdate(
+      { _id: req.params.id},
+      { $set: data },
+      { new: true }
+    )
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+   } catch(error){
+    resp.errorr(res, error);
+   }
+  };
+// exports.edit_astrogallery = async (req, res) => {
+//   const { _id, astroId, file } = req.body; // Assuming you'll pass _id along with updated data
+
+//   const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];
+
+//   try {
+//     let updatedData = {};
+
+//     if (file) {
+//       const fileExtension = file.split('.').pop();
+
+//       if (!allowedFileTypes.includes(fileExtension)) {
+//         return resp.errorr(res, "Invalid file type");
+//       } else {
+//         const getimgurl = await uploadFile(
+//           req.file.path,
+//           req.file.filename,
+//           fileExtension
+//         );
+
+//         if (getimgurl) {
+//           updatedData.file = getimgurl.Location;
+//         }
+//       }
+//     }
+
+//     if (astroId) {
+//       updatedData.astroId = astroId;
+//     }
+
+//     const updatedAstroGallery = await astroGallery.findByIdAndUpdate(
+//       _id,
+//       { $set: updatedData },
+//       { new: true }
+//     );
+
+//     if (!updatedAstroGallery) {
+//       return resp.errorr(res, "AstroGallery entry not found");
+//     }
+
+//     resp.successr(res, updatedAstroGallery);
+//   } catch (error) {
+//     resp.errorr(res, error);
+//   }
+// }
