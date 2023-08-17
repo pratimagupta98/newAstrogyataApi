@@ -38,7 +38,8 @@ const thisSchema = new Schema(
     totalQus: {
       type: Number,
       default: 0
-    }
+    },
+    
 
   },
   { timestamps: true }
