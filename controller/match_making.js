@@ -2067,7 +2067,7 @@ exports.horoChartImage = async (req, res) => {
         // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
 
-        // Assuming that `resp` contains the response data with the `svg` property
+
         const svgCode = resp.svg;
 
         // Convert SVG code to an image buffer
@@ -2081,9 +2081,9 @@ exports.horoChartImage = async (req, res) => {
           const base64Image = buffer.toString('base64');
           res.setHeader('Content-Type', 'image/png');
           res.send(Buffer.from(base64Image, 'base64'));
-          
 
-       });
+
+        });
       } catch (err) {
         console.error(err);
         res.status(500).json({
