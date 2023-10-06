@@ -43,7 +43,9 @@ const {
   ashtakvarga_list,
   yogini_dasha_list,
   planets_list,
-  VimshottariDasha_list
+  VimshottariDasha_list,
+  lagan,
+  horoChartImage
 
 } = require("../controller/match_making");
 
@@ -91,6 +93,9 @@ router.get("/user/ashtakvarga_list", ashtakvarga_list);
 router.get("/user/VimshottariDasha_list", VimshottariDasha_list);
 router.get("/user/planets_list", planets_list);
 router.get("/user/yogini_dasha_list", yogini_dasha_list);
+router.post("/user/lagan", lagan);
+router.get("/user/horoChartImage/:chartId", horoChartImage);
+
 
 
 

@@ -436,7 +436,7 @@ exports.getOne_Conversation_Wallet = async (req, res) => {
 
 
 exports.dltNotificattion = async (req, res) => {
-  await ChatWallet.deleteOne({_id:req.params.id})
+  await ChatWallet.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
