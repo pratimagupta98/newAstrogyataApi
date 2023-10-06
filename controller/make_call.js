@@ -125,7 +125,7 @@ exports.make_call = async (req, res) => {
         res.status(200).json({ order: options });
         setTimeout(() => {
           checkCallStatus();
-      },40000)
+        }, 40000)
         //checkCallStatus();
       }
     });
@@ -429,7 +429,6 @@ exports.call_Status = async (req, res) => {
   request(options, callback);
 };
 
-const agora = require("agora-access-token");
 const { ConnectionPoolClearedEvent } = require("mongodb");
 const { CloudWatchLogs } = require("aws-sdk");
 

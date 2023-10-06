@@ -1,7 +1,6 @@
 const AsLive = require("../models/astroLiveStreaming");
 const resp = require("../helpers/apiResponse");
-const agora = require('agora-access-token');
-const Astrologer = require("../models/astrologer");
+ const Astrologer = require("../models/astrologer");
 
 
 exports.listLiveStreamAstro = async (req, res) => {

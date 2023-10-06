@@ -1,7 +1,6 @@
 const AsLive = require("../models/yog_liveStream");
 const resp = require("../helpers/apiResponse");
-const agora = require('agora-access-token');
-const Astrologer = require("../models/astrologer");
+ const Astrologer = require("../models/astrologer");
 
 exports.goLiveStreaming = async (req, res) => {
     try {
