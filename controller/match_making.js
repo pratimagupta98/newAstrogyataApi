@@ -258,8 +258,7 @@ exports.ManglikDosh = async (req, res) => {
     lon: req.body.lon,
     tzone: req.body.tzone,
   };
-  //https://json.astrologyapi.com/v1/match_making_report
-  var request = $.ajax({
+   var request = $.ajax({
     // url: "https://json.astrologyapi.com/v1/match_making_report",
     url: "https://json.astrologyapi.com/v1/" + `${api}`,
     method: "POST",
