@@ -1828,6 +1828,8 @@ exports.horoChartImage = async (req, res) => {
 
     request.then(async function (resp) {
       try {
+        console.log('API Response:', resp);
+
     // console.log('API Response:', resp);
         // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
