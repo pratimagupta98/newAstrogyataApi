@@ -94,7 +94,7 @@ router.get("/user/VimshottariDasha_list", VimshottariDasha_list);
 router.get("/user/planets_list", planets_list);
 router.get("/user/yogini_dasha_list", yogini_dasha_list);
 router.post("/user/lagan", lagan);
-router.get("/user/horoChartImage/:chartId", horoChartImage);
+router.post("/user/horoChartImage/:chartId", horoChartImage);
 
 
 

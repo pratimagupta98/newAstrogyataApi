@@ -2038,22 +2038,22 @@ exports.horoChartImage = async (req, res) => {
     const userId = process.env.USERID;
     const apiKey = process.env.APIKEY;
     const data = {
-      // day: req.body.day,
-      // month: req.body.month,
-      // year: req.body.year,
-      // hour: req.body.hour,
-      // min: req.body.min,
-      // lat: req.body.lat,
-      // lon: req.body.lon,
-      // tzone: 5.5
-      day: 6,
-      month: 1,
-      year: 2000,
-      hour: 7,
-      min: 45,
-      lat: 19.132,
-      lon: 72.342,
-      tzone: 5.5,
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5
+      // day: 6,
+      // month: 1,
+      // year: 2000,
+      // hour: 7,
+      // min: 45,
+      // lat: 19.132,
+      // lon: 72.342,
+      // tzone: 5.5,
     };
 
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
