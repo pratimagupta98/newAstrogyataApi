@@ -1862,8 +1862,9 @@ exports.horoChartImage = async (req, res) => {
           })
           //   console.log(Buffer.from(base64Image, 'base64'))
           //   console.log(res.send(Buffer.from(base64Image, 'base64')))
-          res.send(Buffer.from(base64Image, 'base64'));
-
+          const chartData = Buffer.from(base64Image, 'base64');
+         // res.send(Buffer.from(base64Image, 'base64'));
+         res.send(chartData);
         });
       } catch (err) {
         console.error(err);
