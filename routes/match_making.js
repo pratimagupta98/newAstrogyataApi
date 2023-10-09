@@ -45,7 +45,8 @@ const {
   planets_list,
   VimshottariDasha_list,
   lagan,
-  horoChartImage
+  horoChartImage,
+  ChartImage
 
 } = require("../controller/match_making");
 
@@ -95,6 +96,8 @@ router.get("/user/planets_list", planets_list);
 router.get("/user/yogini_dasha_list", yogini_dasha_list);
 router.post("/user/lagan", lagan);
 router.post("/user/horoChartImage/:chartId", horoChartImage);
+router.post("/user/ChartImage/:chartId", ChartImage);
+
 
 
 
