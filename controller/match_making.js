@@ -7,7 +7,7 @@ const fs = require('fs');
 const { canvg } = require('canvg'); // Correct import
 
 const svg2img = require('svg2img');
- const AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
 
 
 const s3 = new AWS.S3({
@@ -1706,7 +1706,7 @@ exports.horo_chart = async (req, res) => {
       err
     });
   });
-  
+
 
 };
 
@@ -1811,7 +1811,7 @@ exports.horoChartImage = async (req, res) => {
       // lon: 72.342,
       // tzone: 5.5,
     };
-   // console.log(req.body)
+    // console.log(req.body)
     console.log('Request Data:', data);
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
 
@@ -1828,15 +1828,15 @@ exports.horoChartImage = async (req, res) => {
 
     request.then(async function (resp) {
       try {
-     //   console.log('API Response:', resp);
+        //   console.log('API Response:', resp);
 
-    // console.log('API Response:', resp);
+        // console.log('API Response:', resp);
         // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
 
 
         const svgCode = resp.svg;
-         // Convert SVG code to an image buffer
+        // Convert SVG code to an image buffer
         svg2img(svgCode, async function (error, buffer) {
           if (error) {
             console.error('Error converting SVG to image:', error);
@@ -1846,6 +1846,7 @@ exports.horoChartImage = async (req, res) => {
           }
           const base64Image = buffer.toString('base64');
           console.log('base64Image:', base64Image);
+          //datadatfa
           res.setHeader('Content-Type', 'image/png');
           //console.log('Base64 Image Data:', base64Image);
           await HoroChart.create({
@@ -1859,8 +1860,8 @@ exports.horoChartImage = async (req, res) => {
             tzone: 5.5,
             apiName: "horo_chart",
           })
-       //   console.log(Buffer.from(base64Image, 'base64'))
-       //   console.log(res.send(Buffer.from(base64Image, 'base64')))
+          //   console.log(Buffer.from(base64Image, 'base64'))
+          //   console.log(res.send(Buffer.from(base64Image, 'base64')))
           res.send(Buffer.from(base64Image, 'base64'));
 
         });
