@@ -2055,7 +2055,7 @@ exports.horoChartImage = async (req, res) => {
       // lon: 72.342,
       // tzone: 5.5,
     };
-
+    console.log(req.body)
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
 
     const request = $.ajax({
@@ -2087,6 +2087,7 @@ exports.horoChartImage = async (req, res) => {
           }
           const base64Image = buffer.toString('base64');
           res.setHeader('Content-Type', 'image/png');
+        
           res.send(Buffer.from(base64Image, 'base64'));
 
 
