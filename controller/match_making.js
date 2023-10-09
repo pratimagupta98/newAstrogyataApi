@@ -2079,7 +2079,7 @@ exports.horoChartImage = async (req, res) => {
         const svgCode = resp.svg;
 
         // Convert SVG code to an image buffer
-        svg2img(svgCode, function (error, buffer) {
+        svg2img(svgCode,async function (error, buffer) {
           if (error) {
             console.error('Error converting SVG to image:', error);
             // Handle the error and send an error response to the client
@@ -2088,17 +2088,17 @@ exports.horoChartImage = async (req, res) => {
           }
           const base64Image = buffer.toString('base64');
           res.setHeader('Content-Type', 'image/png');
-          // const HoroChart = await HoroChart.create({
-          //   day: req.body.day,
-          //   month: req.body.month,
-          //   year: req.body.year,
-          //   hour: req.body.hour,
-          //   min: req.body.min,
-          //   lat: req.body.lat,
-          //   lon: req.body.lon,
-          //   tzone: 5.5,
-          //   apiName: "horo_chart",
-          // })
+          await HoroChart.create({
+            day: req.body.day,
+            month: req.body.month,
+            year: req.body.year,
+            hour: req.body.hour,
+            min: req.body.min,
+            lat: req.body.lat,
+            lon: req.body.lon,
+            tzone: 5.5,
+            apiName: "horo_chart",
+          })
           res.send(Buffer.from(base64Image, 'base64'));
 
 
