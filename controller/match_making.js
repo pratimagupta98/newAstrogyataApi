@@ -1811,7 +1811,8 @@ exports.horoChartImage = async (req, res) => {
       // lon: 72.342,
       // tzone: 5.5,
     };
-    console.log(req.body)
+   // console.log(req.body)
+    console.log('Request Data:', data);
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
 
     const request = $.ajax({
@@ -1827,7 +1828,7 @@ exports.horoChartImage = async (req, res) => {
 
     request.then(async function (resp) {
       try {
-
+    // console.log('API Response:', resp);
         // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
 
@@ -1844,6 +1845,7 @@ exports.horoChartImage = async (req, res) => {
           }
           const base64Image = buffer.toString('base64');
           res.setHeader('Content-Type', 'image/png');
+          //console.log('Base64 Image Data:', base64Image);
           await HoroChart.create({
             day: req.body.day,
             month: req.body.month,
@@ -1855,8 +1857,8 @@ exports.horoChartImage = async (req, res) => {
             tzone: 5.5,
             apiName: "horo_chart",
           })
-          console.log(Buffer.from(base64Image, 'base64'))
-          console.log(res.send(Buffer.from(base64Image, 'base64')))
+       //   console.log(Buffer.from(base64Image, 'base64'))
+       //   console.log(res.send(Buffer.from(base64Image, 'base64')))
           res.send(Buffer.from(base64Image, 'base64'));
 
         });
