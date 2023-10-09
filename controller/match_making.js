@@ -1828,7 +1828,7 @@ exports.horoChartImage = async (req, res) => {
 
     request.then(async function (resp) {
       try {
-        console.log('API Response:', resp);
+     //   console.log('API Response:', resp);
 
     // console.log('API Response:', resp);
         // Assuming the response contains an SVG code in the 'svg' property
@@ -1836,8 +1836,7 @@ exports.horoChartImage = async (req, res) => {
 
 
         const svgCode = resp.svg;
-
-        // Convert SVG code to an image buffer
+         // Convert SVG code to an image buffer
         svg2img(svgCode, async function (error, buffer) {
           if (error) {
             console.error('Error converting SVG to image:', error);
@@ -1846,6 +1845,7 @@ exports.horoChartImage = async (req, res) => {
             return;
           }
           const base64Image = buffer.toString('base64');
+          console.log('base64Image:', base64Image);
           res.setHeader('Content-Type', 'image/png');
           //console.log('Base64 Image Data:', base64Image);
           await HoroChart.create({
