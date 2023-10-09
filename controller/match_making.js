@@ -1780,123 +1780,16 @@ exports.lagan = async (req, res) => {
 };
 
 
-// const { JSDOM } = require('jsdom');
-// const jsdom = new JSDOM();
-// const { window } = jsdom;
-// global.document = window.document;
-// var $ = jQuery = require('jquery')(window);
+const { JSDOM } = require('jsdom');
+const jsdom = new JSDOM();
+const { window } = jsdom;
+global.document = window.document;
+var $ = jQuery = require('jquery')(window);
 
-// exports.horoChartImage = async (req, res) => {
-
-//   try {
-
-//     const api = 'horo_chart_image/' + req.params.chartId;
-//     const userId = process.env.USERID;
-//     const apiKey = process.env.APIKEY;
-//     const data = {
-//       day: req.body.day,
-//       month: req.body.month,
-//       year: req.body.year,
-//       hour: req.body.hour,
-//       min: req.body.min,
-//       lat: req.body.lat,
-//       lon: req.body.lon,
-//       tzone: 5.5
-//       // day: 6,
-//       // month: 1,
-//       // year: 2000,
-//       // hour: 7,
-//       // min: 45,
-//       // lat: 19.132,
-//       // lon: 72.342,
-//       // tzone: 5.5,
-//     };
-//     // console.log(req.body)
-//     console.log('Request Data:', data);
-//     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
-
-//     const request = $.ajax({
-//       url: "https://json.astrologyapi.com/v1/" + api,
-//       method: "POST",
-//       dataType: 'json',
-//       headers: {
-//         "Authorization": auth,
-//         "Content-Type": 'application/json'
-//       },
-//       data: JSON.stringify(data)
-//     });
-
-//     request.then(async function (resp) {
-//       try {
-//         //   console.log('API Response:', resp);
-
-//         // console.log('API Response:', resp);
-//         // Assuming the response contains an SVG code in the 'svg' property
-//         const svg2img = require('svg2img');
-
-
-//         const svgCode = resp.svg;
-//         // Convert SVG code to an image buffer
-//         svg2img(svgCode, async function (error, buffer) {
-//           if (error) {
-//             console.error('Error converting SVG to image:', error);
-//             // Handle the error and send an error response to the client
-//             res.status(500).json({ message: 'Internal Server Error' });
-//             return;
-//           }
-//           const base64Image = buffer.toString('base64');
-//          // console.log('base64Image:', base64Image);
-//           //datadatfa
-//           res.setHeader('Content-Type', 'image/png');
-//           //console.log('Base64 Image Data:', base64Image);
-//           await HoroChart.create({
-//             day: req.body.day,
-//             month: req.body.month,
-//             year: req.body.year,
-//             hour: req.body.hour,
-//             min: req.body.min,
-//             lat: req.body.lat,
-//             lon: req.body.lon,
-//             tzone: 5.5,
-//             apiName: "horo_chart",
-//           })
-//           //   console.log(Buffer.from(base64Image, 'base64'))
-//           //   console.log(res.send(Buffer.from(base64Image, 'base64')))
-//           const chartData = Buffer.from(base64Image, 'base64');
-//          // res.send(Buffer.from(base64Image, 'base64'));
-//          res.send(chartData);
-//         });
-//       } catch (err) {
-//         console.error(err);
-//         res.status(500).json({
-//           status: false,
-//           msg: 'Failed to fetch horoscope chart image',
-//           error: err.message,
-//         });
-//       }
-//     }).catch(function (err) {
-//       // Handle API request errors here.
-//       console.log(err); // Logging the error to the console.
-
-//       // Send an error response to the client.
-//       res.status(500).json({
-//         status: false,
-//         msg: 'Failed to fetch horoscope chart image',
-//         error: err.message,
-//       });
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({
-//       status: false,
-//       msg: 'Failed to fetch horoscope chart image',
-//       error: err.message,
-//     });
-//   }
-// };
- 
 exports.horoChartImage = async (req, res) => {
+
   try {
+
     const api = 'horo_chart_image/' + req.params.chartId;
     const userId = process.env.USERID;
     const apiKey = process.env.APIKEY;
@@ -1908,41 +1801,88 @@ exports.horoChartImage = async (req, res) => {
       min: req.body.min,
       lat: req.body.lat,
       lon: req.body.lon,
-      tzone: 5.5,
+      tzone: 5.5
+      // day: 6,
+      // month: 1,
+      // year: 2000,
+      // hour: 7,
+      // min: 45,
+      // lat: 19.132,
+      // lon: 72.342,
+      // tzone: 5.5,
     };
+    // console.log(req.body)
     console.log('Request Data:', data);
-    
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
 
-    // Make an HTTP POST request using Axios
-    const response = await axios.post("https://json.astrologyapi.com/v1/" + api, data, {
+    const request = $.ajax({
+      url: "https://json.astrologyapi.com/v1/" + api,
+      method: "POST",
+      dataType: 'json',
       headers: {
         "Authorization": auth,
+        "Content-Type": 'application/json'
       },
+      data: JSON.stringify(data)
     });
 
-    const resp = response.data; // Assuming the response contains the chart data
+    request.then(async function (resp) {
+      try {
+        //   console.log('API Response:', resp);
 
-    // Assuming the response contains an SVG code in the 'svg' property
-    const svgCode = resp.svg;
+        // console.log('API Response:', resp);
+        // Assuming the response contains an SVG code in the 'svg' property
+        const svg2img = require('svg2img');
 
-    // Convert SVG code to an image buffer
-    const svg2img = require('svg2img');
-    svg2img(svgCode, async function (error, buffer) {
-      if (error) {
-        console.error('Error converting SVG to image:', error);
-        // Handle the error and send an error response to the client
-        res.status(500).json({ message: 'Internal Server Error' });
-        return;
+
+        const svgCode = resp.svg;
+        // Convert SVG code to an image buffer
+        svg2img(svgCode, async function (error, buffer) {
+          if (error) {
+            console.error('Error converting SVG to image:', error);
+            // Handle the error and send an error response to the client
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+          }
+          const base64Image = buffer.toString('base64');
+          // console.log('base64Image:', base64Image);
+          //datadatfa
+          res.setHeader('Content-Type', 'image/png');
+          //console.log('Base64 Image Data:', base64Image);
+          await HoroChart.create({
+            day: req.body.day,
+            month: req.body.month,
+            year: req.body.year,
+            hour: req.body.hour,
+            min: req.body.min,
+            lat: req.body.lat,
+            lon: req.body.lon,
+            tzone: 5.5,
+            apiName: "horo_chart",
+          })
+
+          const chartData = Buffer.from(base64Image, 'base64');
+          // res.send(Buffer.from(base64Image, 'base64'));
+          res.send(chartData);
+        });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({
+          status: false,
+          msg: 'Failed to fetch horoscope chart image',
+          error: err.message,
+        });
       }
-      const base64Image = buffer.toString('base64');
-      //console.log('base64Image:', base64Image);
+    }).catch(function (err) {
+      // Handle API request errors here.
+      console.log(err); // Logging the error to the console.
 
-      // Set the Content-Type header
-      res.setHeader('Content-Type', 'image/png');
-
-      // Send the image data in the response
-      res.send(Buffer.from(base64Image, 'base64'));
+      // Send an error response to the client.
+      res.status(500).json({
+        status: false,
+        msg: 'Failed to fetch horoscope chart image',
+        error: err.message,
+      });
     });
   } catch (err) {
     console.error(err);
