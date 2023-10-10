@@ -1823,6 +1823,7 @@ exports.horoChartImage = async (req, res) => {
         "Authorization": auth,
         "Content-Type": 'application/json'
       },
+      
       data: JSON.stringify(data)
     });
 
@@ -1833,7 +1834,7 @@ exports.horoChartImage = async (req, res) => {
         // console.log('API Response:', resp);
         // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
-
+console.log("resp",resp)
 
         const svgCode = resp.svg;
         // Convert SVG code to an image buffer
@@ -1912,17 +1913,9 @@ exports.ChartImage = async (req, res) => {
       lat: req.body.lat,
       lon: req.body.lon,
       tzone: 5.5
-      // day: 6,
-      // month: 1,
-      // year: 2000,
-      // hour: 7,
-      // min: 45,
-      // lat: 19.132,
-      // lon: 72.342,
-      // tzone: 5.5,
+      
     };
-    // console.log(req.body)
-    //console.log('Request Data:', data);
+     
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
 
     const request = $.ajax({
@@ -1938,19 +1931,11 @@ exports.ChartImage = async (req, res) => {
 
     request.then(async function (resp) {
       try {
-        //   console.log('API Response:', resp);
-
-        // console.log('API Response:', resp);
-        // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
-
-
         const svgCode = resp.svg;
         // Convert SVG code to an image buffer
         svg2img(svgCode, async function (error, buffer) {
           if (error) {
-            console.error('Error converting SVG to image:', error);
-            // Handle the error and send an error response to the client
             res.status(500).json({ message: 'Internal Server Error' });
             return;
           }
@@ -1974,6 +1959,17 @@ exports.ChartImage = async (req, res) => {
          // const chartData = Buffer.from(base64Image, 'base64');
           // res.send(Buffer.from(base64Image, 'base64'));
           res.send(svgCode);
+          await HoroChart.create({
+            day: req.body.day,
+            month: req.body.month,
+            year: req.body.year,
+            hour: req.body.hour,
+            min: req.body.min,
+            lat: req.body.lat,
+            lon: req.body.lon,
+            tzone: 5.5,
+            apiName: "horo_chart",
+          })
         });
       } catch (err) {
         console.error(err);
@@ -1984,8 +1980,8 @@ exports.ChartImage = async (req, res) => {
         });
       }
     }).catch(function (err) {
-      // Handle API request errors here.
-      console.log(err); // Logging the error to the console.
+     
+      console.log(err);  
 
       // Send an error response to the client.
       res.status(500).json({

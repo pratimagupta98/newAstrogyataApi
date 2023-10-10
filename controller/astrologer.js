@@ -812,10 +812,6 @@ exports.busyAstroCount = async (req, res) => {
   }
 };
 
-
-
-
-
 exports.getWaitQueueList = async (req, res) => {
   const { id } = req.params;
 
@@ -854,8 +850,6 @@ exports.getWaitQueueList = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch waitQueue list" });
   }
 };
-
-
 exports.deleteWaitQueueItem = async (req, res) => {
   const { astrologerId, userId } = req.params;
 
@@ -887,3 +881,34 @@ exports.deleteWaitQueueItem = async (req, res) => {
     res.status(500).json({ error: "Failed to delete WaitQueue item" });
   }
 };
+const schedule = require('node-schedule');
+
+exports.SchedueTimetoOffline = async (req, res) => {
+  try {
+    const { Start_Date, Start_Time,astroId } = req.body; // Extract Start_Date and Start_Time from the request body
+
+    if (Start_Date && Start_Time) {
+      // Parse Start_Date and Start_Time to create the initial scheduling date
+      const [startDateDay, startDateMonth, startDateYear] = Start_Date.split('/').map(Number);
+      const [startHour, startMinute] = Start_Time.split(':').map(Number);
+      const initialDate = new Date(startDateYear, startDateMonth - 1, startDateDay, startHour, startMinute);
+
+      // Schedule a job to perform some task in the future.
+      const scheduledJob = schedule.scheduleJob(initialDate, async () => {
+      //  console.log('Scheduled job completed successfully.');
+        findone = await Astrologer.findOneAndUpdate(
+          { _id: req.body.astroId },
+          { $set: { status:"Offline"} },
+          { new: true }
+        )
+      });
+      res.status(200).json({ message: 'Task scheduled successfully.', status: true });
+    } else {
+      res.status(400).json({ message: 'Invalid input data.', status: false });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Internal server error.', status: false });
+  }
+}
+
