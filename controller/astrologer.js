@@ -885,7 +885,7 @@ const schedule = require('node-schedule');
 
 exports.SchedueTimetoOffline = async (req, res) => {
   try {
-    const { Start_Date, Start_Time,astroId } = req.body; // Extract Start_Date and Start_Time from the request body
+    const { Start_Date, Start_Time, astroId } = req.body; // Extract Start_Date and Start_Time from the request body
 
     if (Start_Date && Start_Time) {
       // Parse Start_Date and Start_Time to create the initial scheduling date
@@ -895,10 +895,10 @@ exports.SchedueTimetoOffline = async (req, res) => {
 
       // Schedule a job to perform some task in the future.
       const scheduledJob = schedule.scheduleJob(initialDate, async () => {
-      //  console.log('Scheduled job completed successfully.');
+        //  console.log('Scheduled job completed successfully.');
         findone = await Astrologer.findOneAndUpdate(
           { _id: req.body.astroId },
-          { $set: { status:"Offline"} },
+          { $set: { status: "Online" } },
           { new: true }
         )
       });
