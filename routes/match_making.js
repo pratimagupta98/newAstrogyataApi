@@ -46,7 +46,10 @@ const {
   VimshottariDasha_list,
   lagan,
   horoChartImage,
-  ChartImage
+  ChartImage,
+  astro_details,
+  general_rashi_report,
+  general_house_report
 
 } = require("../controller/match_making");
 
@@ -62,6 +65,8 @@ router.post("/user/PitriDosh", PitriDosh);
 router.post("/user/geo_detail", geo_detail);
 router.post("/user/time_zone", time_zone);
 router.post("/user/birth_details", birth_details);
+router.post("/user/astro_details", astro_details);
+
 router.get("/user/getbirth_details", getbirth_details);
 router.get("/user/birth_detailsByAstroid/:id", birth_detailsByAstroid);
 
@@ -97,6 +102,8 @@ router.get("/user/yogini_dasha_list", yogini_dasha_list);
 router.post("/user/lagan", lagan);
 router.post("/user/horoChartImage/:chartId", horoChartImage);
 router.post("/user/ChartImage/:chartId", ChartImage);
+router.post("/user/general_rashi_report/:planet_name", general_rashi_report);
+router.post("/user/general_house_report/:planet_name", general_house_report);
 
 
 

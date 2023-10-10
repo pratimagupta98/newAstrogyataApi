@@ -576,6 +576,86 @@ exports.birth_details = async (req, res) => {
     });
   });
 }
+
+exports.astro_details = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
+  var api = 'astro_details';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
+  const data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+    
+    astroid: req.body.astroid
+
+  };
+  const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
+
+
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    const birthDetail = new BirthDetail({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+      ayanamsha: req.body.ayanamsha,
+      sunrise: req.body.sunrise,
+      sunset: req.body.sunset,
+      userid: req.body.userid,
+      astroid: req.body.astroid,
+      ayanamsha: resp.ayanamsha,
+      sunrise: resp.sunrise,
+      sunset: resp.sunset
+    });
+
+    birthDetail.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
+  }, function (err) {
+    res.status(405).json({
+      err
+    });
+  });
+}
 exports.getbirth_details = async (req, res) => {
   await BirthDetail.find()
     .sort({ sortorder: 1 })
@@ -1998,4 +2078,164 @@ exports.ChartImage = async (req, res) => {
       error: err.message,
     });
   }
+};
+
+
+ 
+
+
+exports.general_rashi_report = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
+  var planetName = req.params.planetName; // Assuming planet_name is passed as a parameter
+  //var api = 'general_rashi_report/:planet_name';
+  var api = 'general_rashi_report/' + req.params.planet_name;
+   
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+   // apiName: "ashtakvarga"
+  };
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    const newHoroChart = new HoroChart({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+   //   apiName: "ashtakvarga",
+
+    });
+
+    newHoroChart.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp,
+          userid: req.body.userid,
+          astroid: req.body.astroid
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
+  }, function (err) {
+    res.status(405).json({
+      err
+    });
+  });
+
+};
+
+exports.general_house_report = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
+  var planetName = req.params.planetName; // Assuming planet_name is passed as a parameter
+  //var api = 'general_rashi_report/:planet_name';
+  var api = 'general_house_report/' + req.params.planet_name;
+   
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+   // apiName: "ashtakvarga"
+  };
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    const newHoroChart = new HoroChart({
+      day: req.body.day,
+      month: req.body.month,
+      year: req.body.year,
+      hour: req.body.hour,
+      min: req.body.min,
+      lat: req.body.lat,
+      lon: req.body.lon,
+      tzone: 5.5,
+   //   apiName: "ashtakvarga",
+
+    });
+
+    newHoroChart.save()
+      .then(savedDetail => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: resp,
+          userid: req.body.userid,
+          astroid: req.body.astroid
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          status: false,
+          msg: "Failed to save data",
+          error: error.message
+        });
+      });
+  }, function (err) {
+    res.status(405).json({
+      err
+    });
+  });
+
 };
