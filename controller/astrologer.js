@@ -883,7 +883,7 @@ exports.deleteWaitQueueItem = async (req, res) => {
 };
 const schedule = require('node-schedule');
 
-exports.SchedueTimetoOffline = async (req, res) => {
+exports.SchedueTimetoOnline = async (req, res) => {
   try {
     const { Start_Date, Start_Time, astroId } = req.body; // Extract Start_Date and Start_Time from the request body
 
