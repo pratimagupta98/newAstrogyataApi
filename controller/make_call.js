@@ -589,12 +589,12 @@ exports.adminCallHistory = async (req, res) => {
 exports.partnerGrowthPerformance = async (req, res) => {
   try {
     const astroid = req.params.astroid
-    const completedCalls = await make_call.countDocuments({ Status: "completed",astroid });
-    const receivedCalls = await make_call.countDocuments({ Status: "rejected" ,astroid});
+    const ReceivedCalls = await make_call.countDocuments({ Status: "completed",astroid });
+    const rejectedCalls = await make_call.countDocuments({ Status: "rejected" ,astroid});
 
     const response = {
-      totalCompletedCalls: completedCalls,
-      totalReceivedCalls: receivedCalls,
+      totalReceivedCalls: ReceivedCalls,
+      rejectedCalls: rejectedCalls,
     };
 
     return resp.successr(res, response);
