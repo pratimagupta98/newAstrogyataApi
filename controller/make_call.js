@@ -602,3 +602,38 @@ exports.partnerGrowthPerformance = async (req, res) => {
     return resp.errorr(res, error);
   }
 };
+
+
+exports.onlineHour = async (req, res) => {
+  try {
+    const astroid = req.params.astroid; // Assuming "astroid" is part of the URL
+
+    // Find the live sessions for the given astrologer
+    const liveSessions = await make_call.find({ astoid, Status: "live" });
+
+    // Calculate the total hours the astrologer is live
+    let totalLiveHours = 0;
+
+    liveSessions.forEach(session => {
+      const startTime = new Date(session.start_time);
+      const endTime = new Date(session.end_time);
+
+      // Calculate the duration in milliseconds
+      const durationMs = endTime - startTime;
+
+      // Convert duration to hours
+      const durationHours = durationMs / (1000 * 60 * 60);
+
+      totalLiveHours += durationHours;
+    });
+
+    const response = {
+      astoid,
+      totalLiveHours,
+    };
+
+    return resp.successr(res, response);
+  } catch (error) {
+    return resp.errorr(res, error);
+  }
+};
