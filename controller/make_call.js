@@ -586,3 +586,19 @@ exports.adminCallHistory = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+exports.partnerGrowthPerformance = async (req, res) => {
+  try {
+    const astroid = req.params.astroid
+    const completedCalls = await make_call.countDocuments({ Status: "completed",astroid });
+    const receivedCalls = await make_call.countDocuments({ Status: "rejected" ,astroid});
+
+    const response = {
+      totalCompletedCalls: completedCalls,
+      totalReceivedCalls: receivedCalls,
+    };
+
+    return resp.successr(res, response);
+  } catch (error) {
+    return resp.errorr(res, error);
+  }
+};

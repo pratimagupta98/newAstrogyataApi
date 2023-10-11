@@ -17,7 +17,8 @@ const {
   astroCompleteCall,
   dlCallHistory,
   getEarnings,
-  adminCallHistory
+  adminCallHistory,
+  partnerGrowthPerformance
 } = require("../controller/make_call");
 
 router.post("/user/make_call", make_call);
@@ -34,6 +35,7 @@ router.post("/user/make_another_call/:id", on_make_another_call);
 router.get("/user/astroCompleteCall/:id", astroCompleteCall);
 router.get("/user/dlCallHistory/:id", dlCallHistory);
 router.get("/admin/adminCallHistory", adminCallHistory);
+router.get("/admin/partnerGrowthPerformance/:astroid", partnerGrowthPerformance);
 
 
 

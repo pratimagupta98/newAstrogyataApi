@@ -105,8 +105,4 @@ router.post("/user/ChartImage/:chartId", ChartImage);
 router.post("/user/general_rashi_report/:planet_name", general_rashi_report);
 router.post("/user/general_house_report/:planet_name", general_house_report);
 
-
-
-
-
 module.exports = router;
