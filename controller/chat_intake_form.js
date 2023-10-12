@@ -56,8 +56,8 @@ exports.add_chat_intake = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   } else {
-    if (req.files) {
-      if (req.files.file[0].path) {
+    if (req.files.file) {
+     // if (req.files.file[0].path) {
         alluploads = [];
         for (let i = 0; i < req.files.file.length; i++) {
           const resp = await cloudinary.uploader.upload(
@@ -68,7 +68,7 @@ exports.add_chat_intake = async (req, res) => {
           alluploads.push(resp.secure_url);
         }
         newIntek.file = alluploads;
-      }
+     // }
     }
     newIntek
       .save()
@@ -105,8 +105,6 @@ exports.getone_chatintek = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
-
 exports.edit_ChatIntake = async (req, res) => {
   try {
     const { userid, astroid, gender, mobile, firstname, p_firstname, lastname, p_lastname, dob, p_dob, date_of_time, p_date_of_time, birthPlace, p_birthPlace, marital_status, occupation, topic_of_cnsrn, entertopic_of_cnsrn } = req.body
@@ -200,22 +198,17 @@ exports.edit_ChatIntake = async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 };
-
-
 exports.dlt_ChatIntek = async (req, res) => {
   await Intek.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
-
 exports.intekListByUser = async (req, res) => {
   await Intek.find({ userid: req.params.id }).populate("userid")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 exports.intekListforApp = async (req, res) => {
   await Intek.find({ userid: req.params.id }).populate("userid")
     .sort({ createdAt: -1 })
@@ -228,16 +221,12 @@ exports.intekListforCall = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 exports.intekListforVideo = async (req, res) => {
   await Intek.find({ userid: req.params.id }).populate("userid")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
-
-
 exports.selectIntakeForm = async (req, res) => {
   const { chatIntekId, userId, astroId } = req.body;
 
