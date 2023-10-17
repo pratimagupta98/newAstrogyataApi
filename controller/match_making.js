@@ -597,7 +597,7 @@ exports.astro_details = async (req, res) => {
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
-    
+
     astroid: req.body.astroid
 
   };
@@ -1903,7 +1903,7 @@ exports.horoChartImage = async (req, res) => {
         "Authorization": auth,
         "Content-Type": 'application/json'
       },
-      
+
       data: JSON.stringify(data)
     });
 
@@ -1914,7 +1914,7 @@ exports.horoChartImage = async (req, res) => {
         // console.log('API Response:', resp);
         // Assuming the response contains an SVG code in the 'svg' property
         const svg2img = require('svg2img');
-console.log("resp",resp)
+        console.log("resp", resp)
 
         const svgCode = resp.svg;
         // Convert SVG code to an image buffer
@@ -1993,9 +1993,9 @@ exports.ChartImage = async (req, res) => {
       lat: req.body.lat,
       lon: req.body.lon,
       tzone: 5.5
-      
+
     };
-     
+
     const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
 
     const request = $.ajax({
@@ -2019,10 +2019,10 @@ exports.ChartImage = async (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' });
             return;
           }
-         // const base64Image = buffer.toString('base64');
+          // const base64Image = buffer.toString('base64');
           // console.log('base64Image:', base64Image);
           //datadatfa
-         // res.setHeader('Content-Type', 'image/png');
+          // res.setHeader('Content-Type', 'image/png');
           //console.log('Base64 Image Data:', base64Image);
           // await HoroChart.create({
           //   day: req.body.day,
@@ -2036,7 +2036,7 @@ exports.ChartImage = async (req, res) => {
           //   apiName: "horo_chart",
           // })
 
-         // const chartData = Buffer.from(base64Image, 'base64');
+          // const chartData = Buffer.from(base64Image, 'base64');
           // res.send(Buffer.from(base64Image, 'base64'));
           res.send(svgCode);
           await HoroChart.create({
@@ -2060,8 +2060,8 @@ exports.ChartImage = async (req, res) => {
         });
       }
     }).catch(function (err) {
-     
-      console.log(err);  
+
+      console.log(err);
 
       // Send an error response to the client.
       res.status(500).json({
@@ -2081,7 +2081,7 @@ exports.ChartImage = async (req, res) => {
 };
 
 
- 
+
 
 
 exports.general_rashi_report = async (req, res) => {
@@ -2095,7 +2095,7 @@ exports.general_rashi_report = async (req, res) => {
   var planetName = req.params.planetName; // Assuming planet_name is passed as a parameter
   //var api = 'general_rashi_report/:planet_name';
   var api = 'general_rashi_report/' + req.params.planet_name;
-   
+
   var userId = process.env.USERID;
   var apiKey = process.env.APIKEY;
   var data = {
@@ -2107,7 +2107,7 @@ exports.general_rashi_report = async (req, res) => {
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
-   // apiName: "ashtakvarga"
+    // apiName: "ashtakvarga"
   };
 
   var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
@@ -2133,7 +2133,7 @@ exports.general_rashi_report = async (req, res) => {
       lat: req.body.lat,
       lon: req.body.lon,
       tzone: 5.5,
-   //   apiName: "ashtakvarga",
+      //   apiName: "ashtakvarga",
 
     });
 
@@ -2173,7 +2173,7 @@ exports.general_house_report = async (req, res) => {
   var planetName = req.params.planetName; // Assuming planet_name is passed as a parameter
   //var api = 'general_rashi_report/:planet_name';
   var api = 'general_house_report/' + req.params.planet_name;
-   
+
   var userId = process.env.USERID;
   var apiKey = process.env.APIKEY;
   var data = {
@@ -2185,7 +2185,7 @@ exports.general_house_report = async (req, res) => {
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
-   // apiName: "ashtakvarga"
+    // apiName: "ashtakvarga"
   };
 
   var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
@@ -2211,7 +2211,7 @@ exports.general_house_report = async (req, res) => {
       lat: req.body.lat,
       lon: req.body.lon,
       tzone: 5.5,
-   //   apiName: "ashtakvarga",
+      //   apiName: "ashtakvarga",
 
     });
 

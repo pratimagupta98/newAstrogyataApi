@@ -193,7 +193,12 @@ const thisSchema = new Schema(
     specification: {
       type: String,
     },
-
+    pan_number:{
+      type: Number,
+    },
+panImg:{
+  type: Array,
+}
 
   },
 

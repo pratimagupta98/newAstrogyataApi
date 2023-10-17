@@ -283,6 +283,7 @@ exports.editAstroDetails = async (req, res) => {
     saturday,
     sunday,
     channelName,
+    pan_number
   } = req.body;
 
   let data = {};
@@ -423,6 +424,9 @@ exports.editAstroDetails = async (req, res) => {
     // data.callCharge = (parseInt(callCharge) * 25) / 100;
     // data.callCharge = parseInt(req.body.callCharge) + parseInt(data.callCharge);
 
+  }
+  if (pan_number) {
+    data.pan_number = pan_number;
   }
   // console.log("callCharge", data.callCharge)
 
@@ -710,7 +714,7 @@ exports.status_change = async (req, res) => {
 };
 
 exports.exp_high_to_low = async (req, res) => {
-  await Astrologer.find()
+  await Astrologer.find({ approvedstatus: "true" })
     .sort({ exp_in_years: -1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
@@ -718,7 +722,7 @@ exports.exp_high_to_low = async (req, res) => {
 };
 
 exports.exp_low_to_high = async (req, res) => {
-  await Astrologer.find()
+  await Astrologer.find({ approvedstatus: "true" })
     .sort({ exp_in_years: 1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
@@ -726,7 +730,7 @@ exports.exp_low_to_high = async (req, res) => {
 };
 
 exports.price_high_to_low = async (req, res) => {
-  await Astrologer.find()
+  await Astrologer.find({ approvedstatus: "true" })
     .sort({ callCharge: -1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
@@ -734,7 +738,7 @@ exports.price_high_to_low = async (req, res) => {
 };
 
 exports.price_low_to_high = async (req, res) => {
-  await Astrologer.find()
+  await Astrologer.find({ approvedstatus: "true" })
     .sort({ callCharge: 1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
@@ -742,7 +746,7 @@ exports.price_low_to_high = async (req, res) => {
 };
 
 exports.rating_high_to_low = async (req, res) => {
-  await Astrologer.find()
+  await Astrologer.find({ approvedstatus: "true" })
     .sort({ avg_rating: -1 })
     // .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
@@ -750,7 +754,7 @@ exports.rating_high_to_low = async (req, res) => {
 };
 
 exports.rating_low_to_high = async (req, res) => {
-  await Astrologer.find()
+  await Astrologer.find({ approvedstatus: "true" })
     .sort({ avg_rating: 1 })
     //.sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))

@@ -57,18 +57,18 @@ exports.add_chat_intake = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   } else {
     if (req.files.file) {
-     // if (req.files.file[0].path) {
-        alluploads = [];
-        for (let i = 0; i < req.files.file.length; i++) {
-          const resp = await cloudinary.uploader.upload(
-            req.files.file[i].path,
-            { use_filename: true, unique_filename: false }
-          );
-          fs.unlinkSync(req.files.file[i].path);
-          alluploads.push(resp.secure_url);
-        }
-        newIntek.file = alluploads;
-     // }
+      // if (req.files.file[0].path) {
+      alluploads = [];
+      for (let i = 0; i < req.files.file.length; i++) {
+        const resp = await cloudinary.uploader.upload(
+          req.files.file[i].path,
+          { use_filename: true, unique_filename: false }
+        );
+        fs.unlinkSync(req.files.file[i].path);
+        alluploads.push(resp.secure_url);
+      }
+      newIntek.file = alluploads;
+      // }
     }
     newIntek
       .save()
@@ -235,7 +235,6 @@ exports.selectIntakeForm = async (req, res) => {
     userId: userId,
     astroId: astroId
   });
-
   newintakeNotification
     .save()
     .then((data) => resp.successr(res, data))
@@ -247,3 +246,4 @@ exports.intetakeNotification = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
