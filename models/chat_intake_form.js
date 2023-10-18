@@ -85,6 +85,22 @@ const thisSchema = new Schema(
     },
     type: {
       type: String,
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    longitude:{
+      type: String,
+    },
+    latitude:{
+      type: String,
+
     }
   },
   { timestamps: true }

@@ -5,7 +5,7 @@ const User = require("../models/users");
 const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
 const dotenv = require("dotenv");
-
+const axios = require('axios');
 const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
@@ -16,10 +16,13 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-
 exports.add_chat_intake = async (req, res) => {
-  const { userid, astroid, gender, mobile, firstname, p_firstname, lastname, p_lastname, dob, p_dob, date_of_time, p_date_of_time, birthPlace, p_birthPlace, marital_status, occupation, topic_of_cnsrn, entertopic_of_cnsrn, type } = req.body;
+  const { userid, astroid, gender, mobile, firstname, p_firstname, lastname, p_lastname, dob, p_dob, date_of_time, p_date_of_time, birthPlace, p_birthPlace, marital_status, occupation, topic_of_cnsrn, entertopic_of_cnsrn, type ,city,state,country,longitude,latitude} = req.body;
+  try {
+    const geoResponse = await axios.post('http://localhost:4000/user/geo_detail', { place: req.body.city });
+    if (geoResponse.data && geoResponse.data.status && geoResponse.data.data.geonames) {
+      const { latitude, longitude } = geoResponse.data.data.geonames[0];
+     console.log(geoResponse.data.data.geonames[0])
   const newIntek = new Intek({
     userid: userid,
     astroid: astroid,
@@ -39,7 +42,12 @@ exports.add_chat_intake = async (req, res) => {
     occupation: occupation,
     topic_of_cnsrn: topic_of_cnsrn,
     entertopic_of_cnsrn: entertopic_of_cnsrn,
-    type: type
+    type: type,
+    city:city,
+    state:state,
+    country:country,
+    longitude:longitude,
+    latitude:latitude
   });
   const findone = await Intek.findOne({ userid: userid })
   if (findone) {
@@ -72,9 +80,18 @@ exports.add_chat_intake = async (req, res) => {
     }
     newIntek
       .save()
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
+      resp.successr(res, newIntek);
+      //.then((data) => resp.successr(res, data))
+     // .catch((error) => resp.errorr(res, error));
   }
+}else{
+  resp.errorr(res, 'No latitude and longitude provided by geo_detail API');
+}
+}catch (error) {
+  console.error(error);
+  // Handle errors from the geo_detail API or other errors
+  resp.errorr(res, error);
+}
 }
 
 
