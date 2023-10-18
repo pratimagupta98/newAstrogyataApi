@@ -22,7 +22,7 @@ exports.add_chat_intake = async (req, res) => {
     const geoResponse = await axios.post('http://localhost:4000/user/geo_detail', { place: req.body.city });
     if (geoResponse.data && geoResponse.data.status && geoResponse.data.data.geonames) {
       const { latitude, longitude } = geoResponse.data.data.geonames[0];
-     console.log(geoResponse.data.data.geonames[0])
+  //   console.log(geoResponse.data.data.geonames[0])
   const newIntek = new Intek({
     userid: userid,
     astroid: astroid,
