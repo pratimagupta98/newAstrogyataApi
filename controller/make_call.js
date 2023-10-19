@@ -41,9 +41,9 @@ exports.make_call = async (req, res) => {
   // if (user.amount > astrologer.min_amount) {
   const axios = require("axios");
   const CircularJSON = require("circular-json");
-  const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
-  const sid = "sveltosetechnologies2";
-  const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
+  const key = "71f472ca6b715b3213b21832ee3604c0ddbd57f34a3c9dfd";
+  const sid = "astrogyatatechnologies1";
+  const token = "8882c425c0a8d5d9c2c2556a36b53afe9cd0cd2f5cc1da8f";
   const from = req.body.from;
   const to = req.body.to;
   const formUrlEncoded = (x) =>
@@ -61,7 +61,7 @@ exports.make_call = async (req, res) => {
         userid: req.body.userid,
         astroid: req.body.astroid.trim(), // Remove extra whitespace using trim()
         walletId: req.body.walletId,
-        CallerId: "080-473-59942",
+        CallerId: "09513886363",
         CallerType: "promo",
         TimeLimit: parseInt(user.amount / astrologer.callCharge) * 60,
       }),

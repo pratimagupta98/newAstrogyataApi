@@ -53,7 +53,10 @@ const thisSchema = new Schema(
         },
         chatHistoryId:{
             type:String
-        }
+        },
+        waiting_tym:{
+            type:Number
+        },
 
     },
 

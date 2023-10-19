@@ -250,7 +250,7 @@ exports.deductBalance = async (req, res) => {
 
       const resp = await Astrologer.updateOne(
         { _id: req.body.astroId },
-        { callingStatus: "Busy" }
+        { callingStatus: "Busy", waiting_tym: parseInt(useramt / astro.callCharge) }
       );
 
       console.log(resp);
@@ -258,6 +258,12 @@ exports.deductBalance = async (req, res) => {
         { _id: getid },
         { userDeductedAmt: astro.callCharge }
       )
+      console.log(
+        "Call ongoing Balance left is ",
+        useramt,
+        "max time is ",
+        parseInt(useramt / astro.callCharge)
+      );
       //  console.log("updatparamters",updatparamters)
       return res.status(200).send("Balance Deducted successfully");
     }
@@ -280,7 +286,7 @@ exports.changeToAvailable = async (req, res) => {
     try {
       const updatedAstrologer = await Astrologer.findByIdAndUpdate(
         astroId,
-        { callingStatus: "Available" },
+        { callingStatus: "Available", waiting_tym: 0 },
         { new: true }
       );
       return res.status(200).send("Status updated successfully");
@@ -401,7 +407,7 @@ exports.dltallChat = async (req, res) => {
 };
 
 exports.userVideohistory = async (req, res) => {
-  await ChatHistory.find({ $and:[{userId:req.params.id},{type:"Video"}]})
+  await ChatHistory.find({ $and: [{ userId: req.params.id }, { type: "Video" }] })
     .sort({ createdAt: -1 }).populate("userId").populate("astroId")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
