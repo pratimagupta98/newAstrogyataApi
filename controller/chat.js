@@ -219,8 +219,6 @@ exports.add_chatroom = async (req, res) => {
   }
 }
 
-
-
 exports.allchatwithuser = async (req, res) => {
   //const{roomid} = req.body
   await Chat.find({ roomid: req.params.id }).populate("userid").populate("astroid").populate("reciver").populate("sender")
@@ -252,12 +250,9 @@ exports.userChatList = async (req, res) => {
   let record = [];
   for (const element of getdetails) {
     if (element.astroid) {
-
       record.push(element.astroid,);
       // record.push(element.astroid.img);
-
       // var getroomid =   record.push(element.roomid)
-
     }
   }
 
