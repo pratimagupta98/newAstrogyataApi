@@ -160,7 +160,7 @@ mongoose
   });
 
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("Example app listening on port 4000");
 });
 
